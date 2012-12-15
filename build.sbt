@@ -20,6 +20,8 @@ retrieveManaged := true
 
 autoScalaLibrary := false
 
+mainClass in Compile := Some( "jsyntaxpane.SyntaxTester" )
+
 // ---- JFlex ----
 
 jflexSettings
