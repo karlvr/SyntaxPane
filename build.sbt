@@ -18,9 +18,16 @@ crossPaths := false  // this is just a Java projet right now!
 
 retrieveManaged := true
 
+autoScalaLibrary := false
+
 // ---- JFlex ----
 
 jflexSettings
+
+// bug in sbt-jflex 0.1-SNAPSHOT -- why would we want to export the JFlex dependency?
+libraryDependencies <<= (libraryDependencies in jflex) { coll =>
+   coll.filterNot( _.name == "jflex" )
+}
 
 // sbt-jflex assumes directory is called `flex` by default. make sure to correct this here:
 sourceDirectory in jflex <<= (sourceDirectory in Compile) { _ / "jflex" }
