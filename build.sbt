@@ -1,6 +1,6 @@
 name := "JSyntaxPane"
 
-version := "1.0.0"
+version := "1.0.1-SNAPSHOT"
 
 organization := "de.sciss"
 
@@ -8,54 +8,44 @@ scalaVersion := "2.9.2"
 
 description := "An extension of Java Swing's JEditorKit that supports syntax highlighting for several languages."
 
-homepage := Some( url( "https://github.com/Sciss/JSyntaxPane" ))
+homepage := Some(url("https://github.com/Sciss/JSyntaxPane"))
 
-licenses := Seq("Apache 2.0 License" -> url( "http://www.apache.org/licenses/LICENSE-2.0.txt" ))
+licenses := Seq("Apache 2.0 License" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 
-scalaVersion := "2.9.2"
+scalaVersion := "2.10.0"
 
-crossPaths := false  // this is just a Java projet right now!
+crossPaths := false  // this is just a Java project right now!
 
 retrieveManaged := true
 
 autoScalaLibrary := false
 
-mainClass in Compile := Some( "jsyntaxpane.SyntaxTester" )
+mainClass in Compile := Some("jsyntaxpane.SyntaxTester")
 
 // ---- JFlex ----
 
-jflexSettings
-
-// bug in sbt-jflex 0.1-SNAPSHOT -- why would we want to export the JFlex dependency?
-libraryDependencies <<= (libraryDependencies in jflex) { coll =>
-   coll.filterNot( _.name == "jflex" )
-}
-
-// sbt-jflex assumes directory is called `flex` by default. make sure to correct this here:
-sourceDirectory in jflex <<= (sourceDirectory in Compile) { _ / "jflex" }
-
-sourceGenerators in Compile <+= generate in jflex
+seq(jflexSettings: _*)
 
 // ---- publishing ----
 
 publishMavenStyle := true
 
 publishTo <<= version { (v: String) =>
-   Some( if( v.endsWith( "-SNAPSHOT" ))
-      "Sonatype Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
-   else
-      "Sonatype Releases"  at "https://oss.sonatype.org/service/local/staging/deploy/maven2"
-   )
+  Some(if (v endsWith "-SNAPSHOT")
+    "Sonatype Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
+  else
+    "Sonatype Releases"  at "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+  )
 }
 
 publishArtifact in Test := false
 
 pomIncludeRepository := { _ => false }
 
-pomExtra :=
+pomExtra <<= name { n =>
 <scm>
-  <url>git@github.com:Sciss/JSyntaxPane.git</url>
-  <connection>scm:git:git@github.com:Sciss/JSyntaxPane.git</connection>
+  <url>git@github.com:Sciss/{n}.git</url>
+  <connection>scm:git:git@github.com:Sciss/{n}.git</connection>
 </scm>
 <developers>
    <developer>
@@ -64,4 +54,4 @@ pomExtra :=
       <url>http://www.sciss.de</url>
    </developer>
 </developers>
-
+}
