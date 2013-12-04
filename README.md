@@ -10,11 +10,13 @@ The motivation for this fork was to change google-code, svn and maven for GitHub
 
 The group-id and version have been adjusted to use my name space at Maven Central:
 
-    "de.sciss" % "jsyntaxpane" % 1.0.+"
+    "de.sciss" % "jsyntaxpane" % v
+
+The current version `v` is `"1.0.1+"`
 
 ### building
 
-JSyntaxPane builds with sbt 0.12. The source code is purely Java at the moment, so no Scala compilation is run. The project uses the [sbt-jflex](https://github.com/sbt/sbt-jflex) plugin v0.1-SNAPSHOT, which in turn uses [JFlex](http://jflex.de/) 1.4.3 to generate the lexer Java sources for the supported languages.
+JSyntaxPane builds with sbt 0.13. The source code is purely Java at the moment, so no Scala compilation is run. The project uses the [sbt-jflex](https://github.com/sbt/sbt-jflex) plugin v0.1-SNAPSHOT, which in turn uses [JFlex](http://jflex.de/) 1.4.3 to generate the lexer Java sources for the supported languages.
 
 To build run `sbt compile`. To run a demo application, run `sbt run`.
 

@@ -25,7 +25,7 @@ import javax.swing.undo.UndoableEdit;
  * A revised UndoManager that groups undos based on positions.  If the change is relatively next to the
  * previous change, like when continuous typing, then the undoes are grouped together.
  *
- * This is cutomized from the
+ * This is customized from the
  *
  * http://www.camick.com/java/source/CompoundUndoMan.java
  *
@@ -90,7 +90,7 @@ public class CompoundUndoMan extends UndoManager {
 	 */
 	private CompoundEdit startCompoundEdit(UndoableEdit anEdit) {
 		//  Track Caret and Document information of this compound edit
-		AbstractDocument.DefaultDocumentEvent docEvt = (DefaultDocumentEvent) anEdit;
+		// AbstractDocument.DefaultDocumentEvent docEvt = (DefaultDocumentEvent) anEdit;
 
 		//  The compound edit is used to store incremental edits
 

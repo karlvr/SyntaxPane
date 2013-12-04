@@ -102,9 +102,11 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 			initKit();
 		}
 		int menuMask = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
-		if(menuMask == KeyEvent.ALT_DOWN_MASK) {
+		if ((menuMask & (KeyEvent.ALT_DOWN_MASK | KeyEvent.ALT_MASK)) != 0) {
 			MENU_MASK_STRING = "alt ";
-		}
+		} else if ((menuMask & (KeyEvent.META_DOWN_MASK | KeyEvent.META_MASK)) != 0) {
+            MENU_MASK_STRING = "meta ";
+        }
 	}
 	private static final String ACTION_MENU_TEXT = "MenuText";
 
@@ -375,8 +377,10 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 			// Add the action to the component also
 			amap.put(actionName, action);
 			// Now bind all the keys to the Action we have using the InputMap
+            String macKey = getProperty(m.key + ".MacKey");
 			for (int i = 1; i < values.length; i++) {
-				String keyStrokeString = values[i].replace("menu ", MENU_MASK_STRING);
+				String ksString         = values[i].replace("menu ", MENU_MASK_STRING);
+                String keyStrokeString  = macKey == null ? ksString : macKey;
 				KeyStroke ks = KeyStroke.getKeyStroke(keyStrokeString);
 				// we may have more than onr value ( for key action ), but we will use the 
 				// last one in the single value here.  This will display the key in the

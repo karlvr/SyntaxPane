@@ -10,7 +10,7 @@ homepage         := Some(url("https://github.com/Sciss/JSyntaxPane"))
 
 licenses         := Seq("Apache 2.0 License" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 
-scalaVersion     := "2.10.0"
+scalaVersion     := "2.10.3"
 
 crossPaths       := false  // this is just a Java project right now!
 
@@ -19,6 +19,8 @@ retrieveManaged  := true
 autoScalaLibrary := false
 
 mainClass in Compile := Some("jsyntaxpane.SyntaxTester")
+
+javacOptions     += "-g"  // debugging symbols
 
 // ---- JFlex ----
 
