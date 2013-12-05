@@ -30,7 +30,7 @@ public abstract class AbstractUndoRedoAction extends DefaultSyntaxAction {
 
     private void removeDocument() {
         if (doc != null) {
-            doc.removePropertyListener(property, propListener);
+            doc.removePropertyChangeListener(property, propListener);
             doc = null;
         }
     }
@@ -38,7 +38,7 @@ public abstract class AbstractUndoRedoAction extends DefaultSyntaxAction {
     private void setDocument(SyntaxDocument newDoc) {
         if (doc != null) throw new IllegalStateException();
         doc = newDoc;
-        doc.addPropertyListener(property, propListener);
+        doc.addPropertyChangeListener(property, propListener);
         setEnabled(updateState());
     }
 

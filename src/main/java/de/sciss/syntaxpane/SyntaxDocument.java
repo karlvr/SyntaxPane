@@ -357,12 +357,12 @@ public class SyntaxDocument extends PlainDocument {
         }
     }
 
-    public void addPropertyListener(String property, PropertyChangeListener listener) {
+    public void addPropertyChangeListener(String property, PropertyChangeListener listener) {
         // System.out.println("ADD " + property + " " + listener.hashCode() + " / " + this.hashCode());
         propSupport.addPropertyChangeListener(property, listener);
     }
 
-    public void removePropertyListener(String property, PropertyChangeListener listener) {
+    public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
         // System.out.println("REM " + property + " " + listener.hashCode() + " / " + this.hashCode());
         propSupport.removePropertyChangeListener(property, listener);
     }

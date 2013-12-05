@@ -1,6 +1,6 @@
 name             := "SyntaxPane"
 
-version          := "1.1.0-SNAPSHOT"
+version          := "1.1.0"
 
 organization     := "de.sciss"
 
@@ -20,7 +20,7 @@ autoScalaLibrary := false
 
 mainClass in Compile := Some("de.sciss.syntaxpane.SyntaxTester")
 
-javacOptions     += "-g"  // debugging symbols
+// javacOptions     += "-g"  // debugging symbols
 
 // ---- JFlex ----
 

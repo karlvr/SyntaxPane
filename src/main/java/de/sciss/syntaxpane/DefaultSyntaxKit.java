@@ -16,6 +16,8 @@ package de.sciss.syntaxpane;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.logging.Level;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
@@ -47,13 +49,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
-import javax.swing.text.DefaultEditorKit;
-import javax.swing.text.Document;
-import javax.swing.text.EditorKit;
-import javax.swing.text.Element;
-import javax.swing.text.JTextComponent;
-import javax.swing.text.View;
-import javax.swing.text.ViewFactory;
+import javax.swing.text.*;
+
 import de.sciss.syntaxpane.actions.DefaultSyntaxAction;
 import de.sciss.syntaxpane.actions.SyntaxAction;
 import de.sciss.syntaxpane.components.SyntaxComponent;
@@ -203,9 +200,16 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 		return true;
 	}
 
-	/**
-	 * Adds a popup menu to the editorPane if needed.
-	 */
+    @Override
+    public void read(Reader in, Document doc, int pos)
+            throws IOException, BadLocationException {
+        super.read(in, doc, pos);
+        ((SyntaxDocument) doc).clearUndos();
+    }
+
+        /**
+         * Adds a popup menu to the editorPane if needed.
+         */
 	public void addPopupMenu(JEditorPane editorPane) {
 		String[] menuItems = getConfig().getPropertyList(CONFIG_MENU);
 		if (menuItems == null || menuItems.length == 0) {
