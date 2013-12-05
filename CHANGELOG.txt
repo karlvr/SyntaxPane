@@ -1,18 +1,28 @@
+Version 1.1.0
+    * Rename to SyntaxPane
+    * Use fully qualified package name de.sciss.syntaxpane
+    * Enabling/disabling of Undo/Redo actions
+    * Fix multiple OS X shortcuts
+    * Fix some Scala related problems
+    * All tracking of document's dirty state
+
+Original JSyntaxPane Changelog:
+
 Version 0.9.5 - Java Reflection Completions additions
-    * Configuration class overhaul.  Each kit now has its own COnfiguration file
+    * Configuration class overhaul.  Each kit now has its own Configuration file
       which merges the superclass(es) Configurations.
     * Usable Reflect Completions Dialog (Java with F1 or Menu)
     * Java ENTER key responds properly to multi line comments
     * Font can be changed for each Kit
     * Kits for XHTML and Xpath added.  XHTML has a simple Preview Action.
-    * Added Execute Script to JacaScript (can also be used for Groovy if Groovy
+    * Added Execute Script to JavaScript (can also be used for Groovy if Groovy
       Scripting support is installed properly).
     * Hotkeys for actions are displayed in Popup Menus
     * Word Completion action can also do CamelCase matches
     * Smart Home Action (and Smart Home Extend Selection)
     * Enhanced JavaScript support.  Issue 115
     * Better Undo grouping
-    * Replace DIalog ENhancement.  Only for updatedable editors and added single replace.
+    * Replace Dialog Enhancement.  Only for updatedable editors and added single replace.
     * Added append method to SyntaxDocument
     * Fixed Issue 130 - Compound Undo on multiple lines.
 Version 0.9.4 - IntelliSense additions
@@ -23,7 +33,7 @@ Version 0.9.4 - IntelliSense additions
     * Added Configurable Popup menus with default Tango Desktop icons
     * Added configurable format for the CaretMonitor class
     * Toggle Comments Action selects the lines affected after being performed
-    * Added multi-line support in ActionUtils.insertMagicSTring method.
+    * Added multi-line support in ActionUtils.insertMagicString method.
     * GotoLine dialog responds to ESC key
 Version 0.9.3 - Start of scripts for the document:
     * Added new methods getLine() to SyntaxDocument
@@ -50,7 +60,7 @@ Version 0.9.3 - Start of scripts for the document:
         actions (in the addKeyActions of DefaultSyntaxKit
     * Added Text AA property to SyntaxView
 Version 0.9.2:
-    * Fixing Java Indentation and Un-Indentattion Actions
+    * Fixing Java Indentation and Un-Indentation Actions
     * Added and used (in the Tester) clearUndoes on the SyntaxDocument
     * Added Basic JFlex Syntax
     * Added getContentTypes to DefaultSyntaxKit to get all registered
@@ -79,7 +89,7 @@ Version 0.9.2:
     * Added Comment Pair Highlighting in XML
     * Fixed highlighting with selections so the selection always appears
     * Merged Find and Replace Dialogs into one
-    * Fixed issue 33 (undable to add new line after final closing brace for
+    * Fixed issue 33 (undoable to add new line after final closing brace for
       Java)
     * Added Groovy Multi-Line strings and fixed Comments as Regex issue.
     * Fixes to empty find text field causing NPE

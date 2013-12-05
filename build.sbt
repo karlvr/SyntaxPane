@@ -1,4 +1,4 @@
-name             := "JSyntaxPane"
+name             := "SyntaxPane"
 
 version          := "1.1.0-SNAPSHOT"
 
@@ -6,7 +6,7 @@ organization     := "de.sciss"
 
 description      := "An extension of Java Swing's JEditorKit that supports syntax highlighting for several languages."
 
-homepage         := Some(url("https://github.com/Sciss/JSyntaxPane"))
+homepage         := Some(url("https://github.com/Sciss/" + name.value))
 
 licenses         := Seq("Apache 2.0 License" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 
@@ -18,7 +18,7 @@ retrieveManaged  := true
 
 autoScalaLibrary := false
 
-mainClass in Compile := Some("jsyntaxpane.SyntaxTester")
+mainClass in Compile := Some("de.sciss.syntaxpane.SyntaxTester")
 
 javacOptions     += "-g"  // debugging symbols
 
