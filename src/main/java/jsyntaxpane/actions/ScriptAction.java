@@ -22,7 +22,7 @@ import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import javax.swing.text.JTextComponent;
 import jsyntaxpane.SyntaxDocument;
 import jsyntaxpane.util.Configuration;
@@ -69,18 +69,14 @@ public class ScriptAction extends DefaultSyntaxAction {
 	}
 
 	@Override
-	public void config(Configuration config, String name) {
-		super.config(config, name);
+	public void install(JEditorPane editor, Configuration config, String name) {
+		super.install(editor, config, name);
 		// now read and store all of our scripts.
 		for (Configuration.StringKeyMatcher m : config.getKeys(Pattern.compile("Script\\.((\\w|-)+)\\.URL"))) {
 			getScriptFromURL(m.value);
 		}
 	}
 
-	/**
-	 * 
-	 * @param url
-	 */
 	public void getScriptFromURL(String url) {
 		InputStream is = JarServiceProvider.findResource(url, this.getClass().getClassLoader());
 		if (is != null) {

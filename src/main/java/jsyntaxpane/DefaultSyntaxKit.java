@@ -1,5 +1,6 @@
 /*
  * Copyright 2008 Ayman Al-Sairafi ayman.alsairafi@gmail.com
+ * Copyright 2013 Hanns Holger Rutz.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -65,7 +66,7 @@ import jsyntaxpane.util.JarServiceProvider;
  * 
  * You need to pass a proper lexer to the class.
  * 
- * @author ayman
+ * @author ayman, Hanns Holger Rutz
  */
 public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 
@@ -111,8 +112,7 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 	private static final String ACTION_MENU_TEXT = "MenuText";
 
 	/**
-	 * Create a new Kit for the given language
-	 * @param lexer
+	 * Creates a new Kit for the given language
 	 */
 	public DefaultSyntaxKit(Lexer lexer) {
 		super();
@@ -121,7 +121,8 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 
 	/**
 	 * Adds UI components to the pane
-	 * @param editorPane
+     *
+	 * @param editorPane    a component to install this kit for
 	 */
 	public void addComponents(JEditorPane editorPane) {
 		// install the components to the editor:
@@ -132,10 +133,7 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 	}
 
 	/**
-	 * Creates a SyntaxComponent of the the given classname and installs
-	 * it on the pane
-	 * @param pane
-	 * @param classname
+	 * Creates a SyntaxComponent of the the given class name and installs it on the pane
 	 */
 	public void installComponent(JEditorPane pane, String classname) {
 		try {
@@ -158,15 +156,13 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 	}
 
 	/**
-	 * Find the SyntaxCOmponent with given classname that is installed
-	 * on the given pane, then deinstalls and removes it fom the
+	 * Finds the SyntaxComponent with given class name that is installed
+	 * on the given pane, then de-installs and removes it fom the
 	 * editorComponents list
-	 * @param pane
-	 * @param classname
 	 */
-	public void deinstallComponent(JEditorPane pane, String classname) {
+	public void deinstallComponent(JEditorPane pane, String className) {
 		for (SyntaxComponent c : editorComponents.get(pane)) {
-			if (c.getClass().getName().equals(classname)) {
+			if (c.getClass().getName().equals(className)) {
 				c.deinstall(pane);
 				editorComponents.get(pane).remove(c);
 				break;
@@ -175,15 +171,13 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 	}
 
 	/**
-	 * Checks if the component with given classname is installed on the
-	 * pane.
-	 * @param pane
-	 * @param classname
+	 * Checks if the component with given classname is installed on the pane.
+     *
 	 * @return true if component is installed, false otherwise
 	 */
-	public boolean isComponentInstalled(JEditorPane pane, String classname) {
+	public boolean isComponentInstalled(JEditorPane pane, String className) {
 		for (SyntaxComponent c : editorComponents.get(pane)) {
-			if (c.getClass().getName().equals(classname)) {
+			if (c.getClass().getName().equals(className)) {
 				return true;
 			}
 		}
@@ -194,26 +188,23 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 	 * Toggles the component with given classname.  If component is found
 	 * and installed, then it is deinstalled.  Otherwise a new one is
 	 * installed
-	 * @param pane
-	 * @param classname
+     *
 	 * @return true if component was installed, false if it was removed
 	 */
-	public boolean toggleComponent(JEditorPane pane, String classname) {
+	public boolean toggleComponent(JEditorPane pane, String className) {
 		for (SyntaxComponent c : editorComponents.get(pane)) {
-			if (c.getClass().getName().equals(classname)) {
+			if (c.getClass().getName().equals(className)) {
 				c.deinstall(pane);
 				editorComponents.get(pane).remove(c);
 				return false;
 			}
 		}
-		installComponent(pane, classname);
+		installComponent(pane, className);
 		return true;
 	}
 
 	/**
 	 * Adds a popup menu to the editorPane if needed.
-	 *
-	 * @param editorPane
 	 */
 	public void addPopupMenu(JEditorPane editorPane) {
 		String[] menuItems = getConfig().getPropertyList(CONFIG_MENU);
@@ -234,8 +225,7 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 			} else if (menuString.startsWith("<")) {
 				Container parent = stack.getParent();
 				if (parent instanceof JMenu) {
-					JMenu jMenu = (JMenu) parent;
-					stack = jMenu;
+                    stack = (JMenu) parent;
 				} else {
 					stack = null;
 				}
@@ -264,14 +254,11 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 	}
 
 	/**
-	 * Add all pop-up menu items to a Toolbar.  <b>You need to call the validate method
+	 * Adds all pop-up menu items to a Toolbar.  <b>You need to call the validate method
 	 * on the toolbar after this is done to layout the buttons.</b>
 	 * Only Actions which have a SMALL_ICON property will be added to the toolbar
 	 * There are three Configuration Keys that affect the appearance of the added buttons:
 	 * CONFIG_TOOLBAR_ROLLOVER, CONFIG_TOOLBAR_BORDER, CONFIG_TOOLBAR_OPAQUE
-	 * 
-	 * @param editorPane
-	 * @param toolbar
 	 */
 	public void addToolBarActions(JEditorPane editorPane, JToolBar toolbar) {
 		String[] toolBarItems = getConfig().getPropertyList(CONFIG_TOOLBAR);
@@ -316,11 +303,9 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 	}
 
 	/**
-	 * Install the View on the given EditorPane.  This is called by Swing and
+	 * Installs the View on the given EditorPane.  This is called by Swing and
 	 * can be used to do anything you need on the JEditorPane control.  Here
 	 * I set some default Actions.
-	 *
-	 * @param editorPane
 	 */
 	@Override
 	public void install(JEditorPane editorPane) {
@@ -344,20 +329,27 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 
 	@Override
 	public void deinstall(JEditorPane editorPane) {
-		List<SyntaxComponent> l = editorComponents.get(editorPane);
 		for (SyntaxComponent c : editorComponents.get(editorPane)) {
 			c.deinstall(editorPane);
 		}
 		editorComponents.clear();
 		editorPane.getInputMap().clear();
-		editorPane.getActionMap().clear();
+        ActionMap m = editorPane.getActionMap();
+        for (Object key : editorPane.getActionMap().keys()) {
+            Action a = m.get(key);
+            if (a instanceof SyntaxAction) {
+                ((SyntaxAction) a).deinstall(editorPane);
+            }
+        }
+        m.clear();
 	}
 
 	/**
-	 * Add keyboard actions to this control using the Configuration we have
+	 * Adds keyboard actions to this control using the Configuration we have
 	 * This is revised to properly use InputMap and ActionMap of the component
 	 * instead of using the KeyMaps directly.
-	 * @param editorPane
+     *
+	 * @param editorPane    the component to attach the actions to
 	 */
 	public void addActions(JEditorPane editorPane) {
 		InputMap imap = new InputMap();
@@ -373,7 +365,7 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 			SyntaxAction action = createAction(actionClass);
 			// The configuration keys will need to be prefixed by Action
 			// to make it more readable in the Configuration files.
-			action.config(getConfig(), DefaultSyntaxAction.ACTION_PREFIX + actionName);
+			action.install(editorPane, getConfig(), DefaultSyntaxAction.ACTION_PREFIX + actionName);
 			// Add the action to the component also
 			amap.put(actionName, action);
 			// Now bind all the keys to the Action we have using the InputMap
@@ -448,7 +440,7 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 	}
 
 	private SyntaxAction createAction(String actionClassName) {
-		SyntaxAction action = null;
+		SyntaxAction action;
 		try {
 			Class clazz = Class.forName(actionClassName);
 			action = (SyntaxAction) clazz.newInstance();
@@ -473,7 +465,6 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 	 * This may be called before you actually get a reference to the control.
 	 * We use it here to create a proper lexer and pass it to the
 	 * SyntaxDcument we return.
-	 * @return
 	 */
 	@Override
 	public Document createDefaultDocument() {
@@ -517,12 +508,10 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 	}
 
 	/**
-	 * Register the given content type to use the given class name as its kit
+	 * Registers the given content type to use the given class name as its kit
 	 * When this is called, an entry is added into the private HashMap of the
 	 * registered editors kits.  This is needed so that the SyntaxPane library
 	 * has it's own registration of all the EditorKits
-	 * @param type
-	 * @param classname
 	 */
 	public static void registerContentType(String type, String classname) {
 		try {
@@ -564,8 +553,6 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 
 	/**
 	 * Merges the given properties with the configurations for this Object
-	 *
-	 * @param config
 	 */
 	public void setConfig(Properties config) {
 		getConfig().putAll(config);
@@ -574,8 +561,6 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 	/**
 	 * Sets the given property to the given value.  If the kit is not
 	 * initialized,  then calls initKit
-	 * @param key
-	 * @param value
 	 */
 	public void setProperty(String key, String value) {
 		getConfig().put(key, value);
@@ -585,7 +570,7 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 	 * Return the property with the given key.  If the kit is not
 	 * initialized,  then calls initKit
 	 * Be careful when changing property as the default property may be used
-	 * @param key
+     *
 	 * @return value for given key
 	 */
 	public String getProperty(String key) {
@@ -593,19 +578,15 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 	}
 
 	/**
-	 * Get the configuration for this Object
-	 * @return
+	 * Gets the configuration for this Object
 	 */
 	public Configuration getConfig() {
 		return getConfig(this.getClass());
 	}
 
 	/**
-	 * Return the Configurations object for a Kit.  Perfrom lazy creation of a
+	 * Returns the Configurations object for a Kit.  Perfrom lazy creation of a
 	 * Configuration object if nothing is created.
-	 *
-	 * @param kit
-	 * @return
 	 */
 	public static synchronized Configuration getConfig(Class<? extends DefaultSyntaxKit> kit) {
 		if (CONFIGS == null) {
@@ -639,9 +620,7 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 	}
 
 	/**
-	 * Adds an abbrevisation to this kit's abbreviations.
-	 * @param abbr
-	 * @param template
+	 * Adds an abbreviation to this kit's abbreviations.
 	 */
 	public static void addAbbreviation(String abbr, String template) {
 		if (abbrvs == null) {
@@ -651,9 +630,7 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 	}
 
 	/**
-	 * Get the template for the given abbreviation
-	 * @param abbr
-	 * @return
+	 * Gets the template for the given abbreviation
 	 */
 	public static String getAbbreviation(String abbr) {
 		return abbrvs == null ? null : abbrvs.get(abbr);
