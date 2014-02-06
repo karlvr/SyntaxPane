@@ -4,7 +4,7 @@ SyntaxPane is an extension to Java Swing's JEditorKit component which adds synta
 
 The original project is (C)opyright by Ayman Al-Sairafi and released under the [Apache License, Version 2.0](http://github.com/Sciss/JSyntaxPane/blob/master/licenses/JSyntaxPane-License.txt).
 
-All changes, reworkings and extensions in SyntaxPane (C)opyright 2011&ndash;2013 by Hanns Holger Rutz. Released under that same license.
+All changes, reworkings and extensions in SyntaxPane (C)opyright 2011&ndash;2014 by Hanns Holger Rutz. Released under that same license.
 
 ## linking
 
@@ -12,7 +12,7 @@ The group-id and version have been adjusted to use my name space at Maven Centra
 
     "de.sciss" % "syntaxpane" % v
 
-The current version `v` is `"1.1.+"`
+The current version `v` is `"1.1.1+"`
 
 ## building
 

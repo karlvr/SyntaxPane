@@ -115,7 +115,7 @@ abstract public class DefaultSyntaxAction extends TextAction implements SyntaxAc
 	 * @param url
 	 */
 	public final void setLargeIcon(String url) {
-		URL loc = this.getClass().getResource(LARGE_ICONS_LOC_PREFIX + url);
+		URL loc = this.getClass().getClassLoader().getResource(LARGE_ICONS_LOC_PREFIX + url);
 		if (loc != null) {
 			ImageIcon i = new ImageIcon(loc);
 			putValue(LARGE_ICON_KEY, i);
@@ -127,13 +127,13 @@ abstract public class DefaultSyntaxAction extends TextAction implements SyntaxAc
 	 * @param url
 	 */
 	public final void setSmallIcon(String url) {
-		URL loc = this.getClass().getResource(SMALL_ICONS_LOC_PREFIX + url);
+		URL loc = this.getClass().getClassLoader().getResource(SMALL_ICONS_LOC_PREFIX + url);
 		if (loc != null) {
 			ImageIcon i = new ImageIcon(loc);
 			putValue(SMALL_ICON, i);
 		}
 	}
 	public static final String ACTION_PREFIX = "Action.";
-	public static final String SMALL_ICONS_LOC_PREFIX = "../images/small-icons/";
-	public static final String LARGE_ICONS_LOC_PREFIX = "../images/large-icons/";
+	public static final String SMALL_ICONS_LOC_PREFIX = "de/sciss/syntaxpane/images/small-icons/";
+	public static final String LARGE_ICONS_LOC_PREFIX = "de/sciss/syntaxpane/images/large-icons/";
 }

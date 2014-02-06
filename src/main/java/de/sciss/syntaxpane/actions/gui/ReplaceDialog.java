@@ -17,10 +17,10 @@ import de.sciss.syntaxpane.actions.*;
 import de.sciss.syntaxpane.components.Markers;
 import java.awt.Color;
 import java.awt.HeadlessException;
+import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.PatternSyntaxException;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.text.JTextComponent;
@@ -90,7 +90,12 @@ public class ReplaceDialog extends javax.swing.JDialog
 		}
 	}
 
-	/**
+    private void setIcon(AbstractButton b, String name) {
+        URL res = getClass().getClassLoader().getResource(DefaultSyntaxAction.SMALL_ICONS_LOC_PREFIX + name);
+        if (res != null) b.setIcon(new javax.swing.ImageIcon(res));
+    }
+
+    /**
 	 * This method is called from within the constructor to
 	 * initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is
@@ -122,7 +127,7 @@ public class ReplaceDialog extends javax.swing.JDialog
         jLblFind.setLabelFor(jCmbFind);
         jLblFind.setText(bundle.getString("ReplaceDialog.jLblFind.text")); // NOI18N
 
-        jBtnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("../../images/small-icons/go-next.png"))); // NOI18N
+        setIcon(jBtnNext, "go-next.png");
         jBtnNext.setMnemonic('N');
         jBtnNext.setText(bundle.getString("ReplaceDialog.jBtnNext.text")); // NOI18N
         jBtnNext.addActionListener(new java.awt.event.ActionListener() {
@@ -131,7 +136,7 @@ public class ReplaceDialog extends javax.swing.JDialog
             }
         });
 
-        jBtnPrev.setIcon(new javax.swing.ImageIcon(getClass().getResource("../../images/small-icons/go-previous.png"))); // NOI18N
+        setIcon(jBtnPrev, "go-previous.png");
         jBtnPrev.setMnemonic('N');
         jBtnPrev.setText(bundle.getString("ReplaceDialog.jBtnPrev.text")); // NOI18N
         jBtnPrev.addActionListener(new java.awt.event.ActionListener() {
@@ -140,7 +145,7 @@ public class ReplaceDialog extends javax.swing.JDialog
             }
         });
 
-        jBtnReplaceAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("../../images/small-icons/edit-find-replace-all.png"))); // NOI18N
+        setIcon(jBtnReplaceAll, "edit-find-replace-all.png");
         jBtnReplaceAll.setMnemonic('H');
         jBtnReplaceAll.setText(bundle.getString("ReplaceDialog.jBtnReplaceAll.text")); // NOI18N
         jBtnReplaceAll.addActionListener(new java.awt.event.ActionListener() {
@@ -163,7 +168,7 @@ public class ReplaceDialog extends javax.swing.JDialog
         jLblReplace.setLabelFor(jCmbReplace);
         jLblReplace.setText(bundle.getString("ReplaceDialog.jLblReplace.text")); // NOI18N
 
-        jTglHighlight.setIcon(new javax.swing.ImageIcon(getClass().getResource("../../images/small-icons/highlight.png"))); // NOI18N
+        setIcon(jTglHighlight, "highlight.png");
         jTglHighlight.setText(bundle.getString("ReplaceDialog.jTglHighlight.text")); // NOI18N
         jTglHighlight.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -175,7 +180,7 @@ public class ReplaceDialog extends javax.swing.JDialog
 
         jCmbFind.setEditable(true);
 
-        jBtnReplace.setIcon(new javax.swing.ImageIcon(getClass().getResource("../../images/small-icons/edit-find-replace.png"))); // NOI18N
+        setIcon(jBtnReplace, "edit-find-replace.png");
         jBtnReplace.setText(bundle.getString("ReplaceDialog.jBtnReplace.text")); // NOI18N
         jBtnReplace.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

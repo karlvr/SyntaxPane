@@ -419,7 +419,7 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 
 		// if we have an icon, then load it:
 		String iconLoc = getConfig().getString(configKey + ".SmallIcon", actionName + ".png");
-		URL loc = this.getClass().getResource(DefaultSyntaxAction.SMALL_ICONS_LOC_PREFIX + iconLoc);
+		URL loc = this.getClass().getClassLoader().getResource(DefaultSyntaxAction.SMALL_ICONS_LOC_PREFIX + iconLoc);
 		if (loc != null) {
 			ImageIcon i = new ImageIcon(loc);
 			action.putValue(Action.SMALL_ICON, i);

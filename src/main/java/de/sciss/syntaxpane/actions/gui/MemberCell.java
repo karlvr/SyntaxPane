@@ -120,12 +120,11 @@ abstract class MemberCell extends JPanel {
 
     private Image readImage(String iconLoc, String kind) {
         String fullPath = iconLoc + kind + ".png";
-        URL loc = this.getClass().getResource(fullPath);
+        URL loc = this.getClass().getClassLoader().getResource(fullPath);
         if (loc == null) {
             return null;
         } else {
-            Image i = new ImageIcon(loc).getImage();
-            return i;
+            return new ImageIcon(loc).getImage();
         }
     }
 

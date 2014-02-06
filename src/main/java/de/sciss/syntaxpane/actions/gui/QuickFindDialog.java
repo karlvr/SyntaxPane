@@ -23,15 +23,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.lang.ref.WeakReference;
+import java.net.URL;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-import javax.swing.JCheckBox;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
 
+import de.sciss.syntaxpane.actions.DefaultSyntaxAction;
 import de.sciss.syntaxpane.actions.DocumentSearchData;
 import de.sciss.syntaxpane.components.Markers;
 import de.sciss.syntaxpane.components.Markers.SimpleMarker;
@@ -108,6 +109,11 @@ public class QuickFindDialog extends javax.swing.JDialog
 		setVisible(true);
 	}
 
+    private void setIcon(AbstractButton b, String name) {
+        URL res = getClass().getClassLoader().getResource(DefaultSyntaxAction.SMALL_ICONS_LOC_PREFIX + name);
+        if (res != null) b.setIcon(new javax.swing.ImageIcon(res));
+    }
+
 	/**
 	 * This method is called from within the constructor to
 	 * initialize the form.
@@ -156,7 +162,7 @@ public class QuickFindDialog extends javax.swing.JDialog
         jToolBar1.add(jTxtFind);
         jToolBar1.add(jSeparator3);
 
-        jBtnPrev.setIcon(new javax.swing.ImageIcon(getClass().getResource("../../images/small-icons/go-up.png"))); // NOI18N
+        setIcon(jBtnPrev, "go-up.png");
         jBtnPrev.setFocusable(false);
         jBtnPrev.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jBtnPrev.setOpaque(false);
@@ -168,7 +174,7 @@ public class QuickFindDialog extends javax.swing.JDialog
         });
         jToolBar1.add(jBtnPrev);
 
-        jBtnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("../../images/small-icons/go-down.png"))); // NOI18N
+        setIcon(jBtnNext, "go-down.png");
         jBtnNext.setFocusable(false);
         jBtnNext.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jBtnNext.setMargin(new java.awt.Insets(2, 2, 2, 2));
