@@ -87,7 +87,7 @@ public class LineNumbersRuler extends JPanel
 	private Color currentLineColor;
 
 	/**
-	 * Get the JscrollPane that contains this EditorPane, or null if no
+	 * Get the JScrollPane that contains this EditorPane, or null if no
 	 * JScrollPane is the parent of this editor
 	 * @param editorPane
 	 * @return

@@ -58,7 +58,7 @@ public class PairsMarker implements CaretListener, SyntaxComponent, PropertyChan
 
     /**
      * Remove all the highlights from the editor pane.  This should be called
-     * when the editorkit is removed.
+     * when the editor-kit is removed.
      */
     public void removeMarkers() {
         Markers.removeMarkers(pane, marker);

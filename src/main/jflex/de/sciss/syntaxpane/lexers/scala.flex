@@ -63,6 +63,8 @@ WhiteSpace = {LineTerminator} | [ \t\f]+
 /* comments */
 Comment = {TraditionalComment} | {EndOfLineComment} 
 
+/* plain comment added by HHR as a quick work-around for embedding non-highlighted text portions */
+PlainComment = "/*---" [^*] ~"*/"
 TraditionalComment = "/*" [^*] ~"*/" | "/*" "*"+ "/"
 EndOfLineComment = "//" {InputCharacter}* {LineTerminator}?
 
@@ -118,6 +120,7 @@ SingleCharacter = [^\r\n\'\\]
   "implicit"       |
   "import"         |
   "lazy"           |
+  "macro"          |
   "match"          |
   "new"            |
   "null"           |
@@ -256,6 +259,7 @@ SingleCharacter = [^\r\n\'\\]
                                  }
 
   /* comments */
+  {PlainComment}                 { return token(TokenType.DEFAULT); }
   {Comment}                      { return token(TokenType.COMMENT); }
 
   /* whitespace */

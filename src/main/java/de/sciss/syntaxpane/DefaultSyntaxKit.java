@@ -81,7 +81,7 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 	private static Font DEFAULT_FONT;
 	private static Set<String> CONTENT_TYPES = new HashSet<String>();
 	private static Boolean initialized = false;
-	private static Map<String, String> abbrvs;
+	private static Map<String, String> abbreviations;
 	private static String MENU_MASK_STRING = "control ";
 	private Lexer lexer;
 	private static final Logger LOG = Logger.getLogger(DefaultSyntaxKit.class.getName());
@@ -132,10 +132,10 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 	/**
 	 * Creates a SyntaxComponent of the the given class name and installs it on the pane
 	 */
-	public void installComponent(JEditorPane pane, String classname) {
+	public void installComponent(JEditorPane pane, String className) {
 		try {
 			@SuppressWarnings(value = "unchecked")
-			Class compClass = Class.forName(classname);
+			Class compClass = Class.forName(className);
 			SyntaxComponent comp = (SyntaxComponent) compClass.newInstance();
 			comp.config(getConfig());
 			comp.install(pane);
@@ -143,14 +143,14 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 				editorComponents.put(pane, new ArrayList<SyntaxComponent>());
 			}
 			editorComponents.get(pane).add(comp);
-		} catch (InstantiationException ex) {
-			LOG.log(Level.SEVERE, null, ex);
-		} catch (IllegalAccessException ex) {
-			LOG.log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            LOG.log(Level.SEVERE, null, ex);
 		} catch (ClassNotFoundException ex) {
 			LOG.log(Level.SEVERE, null, ex);
 		}
-	}
+    }
 
 	/**
 	 * Finds the SyntaxComponent with given class name that is installed
@@ -168,7 +168,7 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 	}
 
 	/**
-	 * Checks if the component with given classname is installed on the pane.
+	 * Checks if the component with given class-name is installed on the pane.
      *
 	 * @return true if component is installed, false otherwise
 	 */
@@ -182,8 +182,8 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 	}
 
 	/**
-	 * Toggles the component with given classname.  If component is found
-	 * and installed, then it is deinstalled.  Otherwise a new one is
+	 * Toggles the component with given class-name.  If component is found
+	 * and installed, then it is uninstalled.  Otherwise a new one is
 	 * installed
      *
 	 * @return true if component was installed, false if it was removed
@@ -227,7 +227,7 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 				popupMenu.get(editorPane).add(sub);
 				stack = sub;
 			} else if (menuString.startsWith("<")) {
-				Container parent = stack.getParent();
+				Container parent = stack == null ? null : stack.getParent();
 				if (parent instanceof JMenu) {
                     stack = (JMenu) parent;
 				} else {
@@ -451,24 +451,24 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 		} catch (InstantiationException ex) {
 			throw new IllegalArgumentException("Cannot create action class: " +
 				actionClassName + ". Ensure it has default constructor.", ex);
-		} catch (IllegalAccessException ex) {
-			throw new IllegalArgumentException("Cannot create action class: " +
-				actionClassName, ex);
-		} catch (ClassNotFoundException ex) {
-			throw new IllegalArgumentException("Cannot create action class: " +
-				actionClassName, ex);
+        } catch (IllegalAccessException ex) {
+            throw new IllegalArgumentException("Cannot create action class: " +
+                    actionClassName, ex);
+        } catch (ClassNotFoundException ex) {
+            throw new IllegalArgumentException("Cannot create action class: " +
+                    actionClassName, ex);
 		} catch (ClassCastException ex) {
 			throw new IllegalArgumentException("Cannot create action class: " +
 				actionClassName, ex);
 		}
-		return action;
+        return action;
 	}
 
 	/**
 	 * This is called by Swing to create a Document for the JEditorPane document
 	 * This may be called before you actually get a reference to the control.
 	 * We use it here to create a proper lexer and pass it to the
-	 * SyntaxDcument we return.
+	 * SyntaxDocument we return.
 	 */
 	@Override
 	public Document createDefaultDocument() {
@@ -480,7 +480,7 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 	 * You can call  this at initialization, or it will be called when needed.
 	 * The method will also add the appropriate EditorKit classes to the
 	 * corresponding ContentType of the JEditorPane.  After this is called,
-	 * you can simply call the editor.setCOntentType("text/java") on the
+	 * you can simply call the editor.setContentType("text/java") on the
 	 * control and you will be done.
 	 */
 	public synchronized static void initKit() {
@@ -505,8 +505,8 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 		Properties kitsForTypes = JarServiceProvider.readProperties("de/sciss/syntaxpane/kitsfortypes");
 		for (Map.Entry e : kitsForTypes.entrySet()) {
 			String type = e.getKey().toString();
-			String classname = e.getValue().toString();
-			registerContentType(type, classname);
+			String className = e.getValue().toString();
+			registerContentType(type, className);
 		}
 		initialized = true;
 	}
@@ -517,32 +517,32 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 	 * registered editors kits.  This is needed so that the SyntaxPane library
 	 * has it's own registration of all the EditorKits
 	 */
-	public static void registerContentType(String type, String classname) {
+	public static void registerContentType(String type, String className) {
 		try {
 			// ensure the class is available and that it does supply a no args
-			// constructor.  This saves debugging later if the classname is incorrect
+			// constructor.  This saves debugging later if the class-name is incorrect
 			// or does not behave correctly:
-			Class c = Class.forName(classname);
+			Class c = Class.forName(className);
 			// attempt to create the class, if we cannot with an empty argument
 			// then the class is invalid
 			Object kit = c.newInstance();
 			if (!(kit instanceof EditorKit)) {
-				throw new IllegalArgumentException("Cannot register class: " + classname +
+				throw new IllegalArgumentException("Cannot register class: " + className +
 					". It does not extend EditorKit");
 			}
-			JEditorPane.registerEditorKitForContentType(type, classname);
+			JEditorPane.registerEditorKitForContentType(type, className);
 			CONTENT_TYPES.add(type);
 		} catch (InstantiationException ex) {
-			throw new IllegalArgumentException("Cannot register class: " + classname +
+			throw new IllegalArgumentException("Cannot register class: " + className +
 				". Ensure it has Default Constructor.", ex);
-		} catch (IllegalAccessException ex) {
-			throw new IllegalArgumentException("Cannot register class: " + classname, ex);
-		} catch (ClassNotFoundException ex) {
-			throw new IllegalArgumentException("Cannot register class: " + classname, ex);
+        } catch (IllegalAccessException ex) {
+            throw new IllegalArgumentException("Cannot register class: " + className, ex);
+        } catch (ClassNotFoundException ex) {
+            throw new IllegalArgumentException("Cannot register class: " + className, ex);
 		} catch (RuntimeException ex) {
-			throw new IllegalArgumentException("Cannot register class: " + classname, ex);
+			throw new IllegalArgumentException("Cannot register class: " + className, ex);
 		}
-	}
+    }
 
 	/**
 	 * Return all the content types supported by this library.  This will be the
@@ -589,7 +589,7 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 	}
 
 	/**
-	 * Returns the Configurations object for a Kit.  Perfrom lazy creation of a
+	 * Returns the Configurations object for a Kit.  Perform lazy creation of a
 	 * Configuration object if nothing is created.
 	 */
 	public static synchronized Configuration getConfig(Class<? extends DefaultSyntaxKit> kit) {
@@ -616,28 +616,28 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 
 	public Map<String, String> getAbbreviations() {
 		// if we have not loaded the abbreviations, then load them now:
-		if (abbrvs == null) {
+		if (abbreviations == null) {
 			String cl = this.getClass().getName().replace('.', '/').toLowerCase();
-			abbrvs = JarServiceProvider.readStringsMap(cl + "/abbreviations.properties");
+			abbreviations = JarServiceProvider.readStringsMap(cl + "/abbreviations.properties");
 		}
-		return abbrvs;
+		return abbreviations;
 	}
 
 	/**
 	 * Adds an abbreviation to this kit's abbreviations.
 	 */
 	public static void addAbbreviation(String abbr, String template) {
-		if (abbrvs == null) {
-			abbrvs = new HashMap<String, String>();
+		if (abbreviations == null) {
+			abbreviations = new HashMap<String, String>();
 		}
-		abbrvs.put(abbr, template);
+		abbreviations.put(abbr, template);
 	}
 
 	/**
 	 * Gets the template for the given abbreviation
 	 */
 	public static String getAbbreviation(String abbr) {
-		return abbrvs == null ? null : abbrvs.get(abbr);
+		return abbreviations == null ? null : abbreviations.get(abbr);
 	}
 
 	private static void loadConfig(Configuration conf, Class<? extends EditorKit> kit) {

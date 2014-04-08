@@ -27,7 +27,7 @@ import de.sciss.syntaxpane.SyntaxDocument;
 import de.sciss.syntaxpane.Token;
 
 /**
- * This class contains static utility methods to make highliting in text 
+ * This class contains static utility methods to make highlighting in text
  * components easier.
  * 
  * @author Ayman Al-Sairafi
@@ -66,7 +66,6 @@ public class Markers {
 
     /**
      * Remove all the markers from an JEditorPane
-     * @param editorPane
      */
     public static void removeMarkers(JTextComponent editorPane) {
         removeMarkers(editorPane, null);
@@ -74,9 +73,6 @@ public class Markers {
 
     /**
      * add highlights for the given Token on the given pane
-     * @param pane
-     * @param token
-     * @param marker
      */
     public static void markToken(JTextComponent pane, Token token, SimpleMarker marker) {
         markText(pane, token.start, token.end(), marker);
@@ -84,10 +80,6 @@ public class Markers {
 
     /**
      * add highlights for the given region on the given pane
-     * @param pane
-     * @param start
-     * @param end
-     * @param marker
      */
     public static void markText(JTextComponent pane, int start, int end, SimpleMarker marker) {
         try {
@@ -99,7 +91,7 @@ public class Markers {
                 hiliter.addHighlight(start, end, marker);
                 return;
             }
-            // selection starts within the highlight, highlight before slection
+            // selection starts within the highlight, highlight before selection
             if(selStart > start && selStart < end ) {
                 hiliter.addHighlight(start, selStart, marker);
             }

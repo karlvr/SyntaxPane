@@ -1,6 +1,6 @@
 name             := "SyntaxPane"
 
-version          := "1.1.1"
+version          := "1.1.2"
 
 organization     := "de.sciss"
 
@@ -10,17 +10,17 @@ homepage         := Some(url("https://github.com/Sciss/" + name.value))
 
 licenses         := Seq("Apache 2.0 License" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 
-scalaVersion     := "2.10.3"
+scalaVersion     := "2.10.4"
 
 crossPaths       := false  // this is just a Java project right now!
 
 retrieveManaged  := true
 
-autoScalaLibrary := false
+// autoScalaLibrary := false
 
 mainClass in Compile := Some("de.sciss.syntaxpane.SyntaxTester")
 
-// javacOptions     += "-g"  // debugging symbols
+javacOptions in (Compile, compile) ++= Seq("-g", "-source", "1.6", "-target", "1.6")
 
 // ---- JFlex ----
 
@@ -47,10 +47,10 @@ pomExtra := { val n = name.value
   <connection>scm:git:git@github.com:Sciss/{n}.git</connection>
 </scm>
 <developers>
-   <developer>
-      <id>sciss</id>
-      <name>Hanns Holger Rutz</name>
-      <url>http://www.sciss.de</url>
-   </developer>
+  <developer>
+    <id>sciss</id>
+    <name>Hanns Holger Rutz</name>
+    <url>http://www.sciss.de</url>
+  </developer>
 </developers>
 }
