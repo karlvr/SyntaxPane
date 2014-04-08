@@ -16,7 +16,7 @@ crossPaths       := false  // this is just a Java project right now!
 
 retrieveManaged  := true
 
-// autoScalaLibrary := false
+autoScalaLibrary := false
 
 mainClass in Compile := Some("de.sciss.syntaxpane.SyntaxTester")
 
