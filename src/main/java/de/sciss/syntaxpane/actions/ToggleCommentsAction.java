@@ -27,9 +27,9 @@ import de.sciss.syntaxpane.SyntaxDocument;
  */
 public class ToggleCommentsAction extends DefaultSyntaxAction {
 
-    protected String lineCommentStart     = "//";
-    protected Pattern lineCommentPattern1 = null;
-    protected Pattern lineCommentPattern2 = null;
+    protected String  lineCommentStart    = "//";
+    protected Pattern lineCommentPattern  = null;   // XXX TODO - no reason for this to be `protected`
+    private   Pattern lineCommentPattern2 = null;
 
     /**
      * creates new JIndentAction.
@@ -46,15 +46,15 @@ public class ToggleCommentsAction extends DefaultSyntaxAction {
     @Override
     public void actionPerformed(JTextComponent target, SyntaxDocument sDoc,
             int dot, ActionEvent e) {
-        if (lineCommentPattern1 == null) {
-            lineCommentPattern1 = Pattern.compile("(^\\s*)(" + lineCommentStart + " )(.*)");
+        if (lineCommentPattern == null) {
+            lineCommentPattern  = Pattern.compile("(^\\s*)(" + lineCommentStart + " )(.*)");
             lineCommentPattern2 = Pattern.compile("(^\\s*)(" + lineCommentStart + ")(.*)");
         }
         String[] lines = ActionUtils.getSelectedLines(target);
         int start = target.getSelectionStart();
         StringBuilder toggled = new StringBuilder();
         for (int i = 0; i < lines.length; i++) {
-            Matcher m1 = lineCommentPattern1.matcher(lines[i]);
+            Matcher m1 = lineCommentPattern.matcher(lines[i]);
             if (m1.find()) {
                 toggled.append(m1.replaceFirst("$1$3"));
             } else {
@@ -75,7 +75,7 @@ public class ToggleCommentsAction extends DefaultSyntaxAction {
 
     public void setLineComments(String value) {
         lineCommentStart    = value.replace("\"", "");
-        lineCommentPattern1 = null;
+        lineCommentPattern = null;
         lineCommentPattern2 = null;
     }
 }
