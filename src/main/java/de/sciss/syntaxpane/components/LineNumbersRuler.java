@@ -201,8 +201,6 @@ public class LineNumbersRuler extends JPanel
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-        System.out.println("Transform: " + ((Graphics2D) g).getTransform());
-
 		FontMetrics fontMetrics = getFontMetrics(getFont());
 		Insets insets = getInsets();
 		int currentLine = -1;
