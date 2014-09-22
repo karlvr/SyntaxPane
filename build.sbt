@@ -1,6 +1,6 @@
 name             := "SyntaxPane"
 
-version          := "1.1.2"
+version          := "1.1.3-SNAPSHOT"
 
 organization     := "de.sciss"
 
@@ -31,7 +31,7 @@ seq(jflexSettings: _*)
 publishMavenStyle := true
 
 publishTo :=
-  Some(if (version.value endsWith "-SNAPSHOT")
+  Some(if (isSnapshot.value)
     "Sonatype Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
   else
     "Sonatype Releases"  at "https://oss.sonatype.org/service/local/staging/deploy/maven2"
