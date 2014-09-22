@@ -132,7 +132,7 @@ public class LineNumbersRuler extends JPanel
 			}
 		};
 		addMouseListener(mouseListener);
-        setPreferredWidth();    // required for toggle-lines to correctly repaint
+        setPreferredWidth(false);    // required for toggle-lines to correctly repaint
 		status = Status.INSTALLING;
 	}
 
@@ -167,19 +167,19 @@ public class LineNumbersRuler extends JPanel
 	 */
 	public void setMinimumDisplayDigits(int minimumDisplayDigits) {
 		this.minimumDisplayDigits = minimumDisplayDigits;
-		setPreferredWidth();
+		setPreferredWidth(false);
 	}
 
 	/**
 	 *  Calculate the width needed to display the maximum line number
 	 */
-	private void setPreferredWidth() {
+	private void setPreferredWidth(boolean force) {
 		int lines  = ActionUtils.getLineCount(editor);
 		int digits = Math.max(String.valueOf(lines).length(), minimumDisplayDigits);
 
 		//  Update sizes when number of digits in the line number changes
 
-		if (lastDigits != digits) {
+		if (force || lastDigits != digits) {
 			lastDigits = digits;
 			numbersFormat = "%" + digits + "d";
 			FontMetrics fontMetrics = getFontMetrics(getFont());
@@ -289,7 +289,7 @@ public class LineNumbersRuler extends JPanel
 				//  Repaint to reflect the new line numbers
 
 				if (lastHeight != preferredHeight) {
-					setPreferredWidth();
+					setPreferredWidth(false);
 					repaint();
 					lastHeight = preferredHeight;
 				}
@@ -311,13 +311,12 @@ public class LineNumbersRuler extends JPanel
 			if (evt.getNewValue() instanceof SyntaxDocument && status.equals(Status.INSTALLING)) {
 				SyntaxDocument syntaxDocument = (SyntaxDocument) evt.getNewValue();
 				syntaxDocument.addDocumentListener(this);
-				setPreferredWidth();
+				setPreferredWidth(false);
 				repaint();
 			}
 		} else if (prop.equals("font") && evt.getNewValue() instanceof Font) {
             setFont((Font) evt.getNewValue());
-			setPreferredWidth();
-			repaint();
+			setPreferredWidth(true);
 		}
         // TODO - theoretically also track "insets"
 	}
