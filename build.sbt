@@ -1,6 +1,6 @@
 name             := "SyntaxPane"
 
-version          := "1.1.3-SNAPSHOT"
+version          := "1.1.3"
 
 organization     := "de.sciss"
 
@@ -10,11 +10,11 @@ homepage         := Some(url("https://github.com/Sciss/" + name.value))
 
 licenses         := Seq("Apache 2.0 License" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 
-scalaVersion     := "2.10.4"
+scalaVersion     := "2.11.2"
 
 crossPaths       := false  // this is just a Java project right now!
 
-retrieveManaged  := true
+// retrieveManaged  := true
 
 autoScalaLibrary := false
 
