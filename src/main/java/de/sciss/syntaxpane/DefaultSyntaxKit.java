@@ -210,12 +210,12 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
 		return true;
 	}
 
-    @Override
-    public void read(Reader in, Document doc, int pos)
-            throws IOException, BadLocationException {
-        super.read(in, doc, pos);
-        ((SyntaxDocument) doc).clearUndos();
-    }
+    //    @Override
+    //    public void read(Reader in, Document doc, int pos)
+    //            throws IOException, BadLocationException {
+    //        super.read(in, doc, pos);
+    //        ((SyntaxDocument) doc).clearUndos();
+    //    }
 
         /**
          * Adds a popup menu to the editorPane if needed.
