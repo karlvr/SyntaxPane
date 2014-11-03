@@ -1,4 +1,5 @@
 // Import the needed java packages and classes
+load("nashorn:mozilla_compat.js");
 importPackage(java.util);
 importClass(javax.swing.JOptionPane)
 
