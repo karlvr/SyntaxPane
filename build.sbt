@@ -1,6 +1,6 @@
 name             := "SyntaxPane"
 
-version          := "1.1.4"
+version          := "1.1.5-SNAPSHOT"
 
 organization     := "de.sciss"
 
