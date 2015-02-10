@@ -260,7 +260,7 @@ public class ReplaceDialog extends javax.swing.JDialog
 		try {
 			updateFinder();
 			String replacement = (String) jCmbReplace.getSelectedItem();
-            if (replacement == null) return;
+            if (replacement == null) replacement = "";
 			if(!jChkRegex.isSelected()) {
 				replacement = Matcher.quoteReplacement(replacement);
 			}
