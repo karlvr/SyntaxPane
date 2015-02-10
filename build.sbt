@@ -10,11 +10,9 @@ homepage         := Some(url("https://github.com/Sciss/" + name.value))
 
 licenses         := Seq("Apache 2.0 License" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 
-scalaVersion     := "2.11.2"
+scalaVersion     := "2.11.5"
 
 crossPaths       := false  // this is just a Java project right now!
-
-// retrieveManaged  := true
 
 autoScalaLibrary := false
 
