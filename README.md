@@ -11,7 +11,7 @@ The original project is (C)opyright by Ayman Al-Sairafi and released under the [
 
 All changes, reworkings and extensions in SyntaxPane (C)opyright 2011&ndash;2014&ndash;2015 by Hanns Holger Rutz. Released under that same license.
 
-## Linking
+## Linking 
 
 The group-id and version have been adjusted to use my name space at Maven Central:
 
