@@ -10,7 +10,7 @@ homepage         := Some(url("https://github.com/Sciss/" + name.value))
 
 licenses         := Seq("Apache 2.0 License" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 
-scalaVersion     := "2.11.5"
+scalaVersion     := "2.11.6"
 
 crossPaths       := false  // this is just a Java project right now!
 
@@ -19,6 +19,8 @@ autoScalaLibrary := false
 mainClass in Compile := Some("de.sciss.syntaxpane.SyntaxTester")
 
 javacOptions in (Compile, compile) ++= Seq("-g", "-source", "1.6", "-target", "1.6")
+
+fork in run := true
 
 // ---- JFlex ----
 
