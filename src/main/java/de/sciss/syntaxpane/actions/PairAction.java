@@ -14,8 +14,14 @@
 package de.sciss.syntaxpane.actions;
 
 import java.awt.event.ActionEvent;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
+import javax.swing.JEditorPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 import de.sciss.syntaxpane.SyntaxDocument;
 
@@ -25,32 +31,126 @@ import de.sciss.syntaxpane.SyntaxDocument;
  *
  * The pairs are hard-coded here.
  */
-public class PairAction extends DefaultSyntaxAction {
+public class PairAction extends DefaultSyntaxAction implements DocumentListener {
 
     public PairAction() {
         super("PAIR_ACTION");
     }
 
-    @Override
-    public void actionPerformed(JTextComponent target, SyntaxDocument sDoc,
-            int dot, ActionEvent e) {
-        String left = e.getActionCommand();
-        String right = PAIRS.get(left);
-        String selected = target.getSelectedText();
-        if (selected != null) {
-            target.replaceSelection(left + selected + right);
-        } else {
-            target.replaceSelection(left + right);
-            target.setCaretPosition(target.getCaretPosition() - right.length());
-        }
-    }
-    private static Map<String, String> PAIRS = new HashMap<String, String>(4);
+    private final AtomicReference<Document> listeningDocument = new AtomicReference<Document>();
+    private final List<Integer> endPositions = Collections.synchronizedList(new LinkedList<Integer>());
 
+    private static Map<String, String> PAIRS = new HashMap<String, String>(4);
 
     static {
         PAIRS.put("(", ")");
         PAIRS.put("[", "]");
         PAIRS.put("\"", "\"");
         PAIRS.put("'", "'");
+    }
+
+    @Override
+    public void actionPerformed(JTextComponent target, SyntaxDocument sDoc,
+                                int dot, ActionEvent e) {
+
+        final String key = e.getActionCommand();
+
+        Document oldDoc = listeningDocument.get();
+        if (oldDoc != sDoc && listeningDocument.compareAndSet(oldDoc, sDoc)) {
+            if (oldDoc != null) {
+                oldDoc.removeDocumentListener(this);
+            }
+            sDoc.addDocumentListener(this);
+        }
+
+        String left = key;
+        String right = PAIRS.get(left);
+        String selected = target.getSelectedText();
+        if (selected != null) {
+            if (right != null) {
+                target.replaceSelection(left + selected + right);
+            } else {
+                target.replaceSelection(key);
+            }
+        } else {
+            boolean unhandled = true;
+            try {
+                synchronized (endPositions) {
+                    Iterator<Integer> positionIter = endPositions.iterator();
+                    while (positionIter.hasNext()) {
+                        int trackedPosition = positionIter.next();
+                        if (target.getCaretPosition() == trackedPosition) {
+                            String nextChar = target.getDocument().getText(target.getCaretPosition(), 1);
+                            if (nextChar.equals(key)) {
+                                target.replaceSelection("");
+                                target.setCaretPosition(target.getCaretPosition() + 1);
+                                positionIter.remove();
+                                unhandled = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+            } catch (BadLocationException e1) {
+                throw new RuntimeException("Internal logic error", e1);
+            }
+            if (unhandled) {
+                if (right != null) {
+                    target.replaceSelection(left + right);
+                    target.setCaretPosition(target.getCaretPosition() - right.length());
+                    endPositions.add(target.getCaretPosition());
+                } else {
+                    target.replaceSelection(key);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void deinstall(JEditorPane editor) {
+        super.deinstall(editor);
+
+        editor.getDocument().removeDocumentListener(this);
+    }
+
+    @Override
+    public void insertUpdate(DocumentEvent e) {
+        synchronized (endPositions) {
+            ListIterator<Integer> positionIter = endPositions.listIterator();
+            while (positionIter.hasNext()) {
+                int position = positionIter.next();
+                if (position >= e.getOffset()) {
+                    position += e.getLength();
+                    positionIter.set(position);
+                } else {
+                    positionIter.remove();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void removeUpdate(DocumentEvent e) {
+        synchronized (endPositions) {
+            ListIterator<Integer> positionIter = endPositions.listIterator();
+            while (positionIter.hasNext()) {
+                int position = positionIter.next();
+                if (position >= e.getOffset()) {
+                    if (position >= e.getOffset() + e.getLength()) {
+                        position -= e.getLength();
+                        positionIter.set(position);
+                    } else {
+                        positionIter.remove();
+                    }
+                } else {
+                    positionIter.remove();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void changedUpdate(DocumentEvent e) {
+        // Do nothing
     }
 }
