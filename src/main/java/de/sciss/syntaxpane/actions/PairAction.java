@@ -13,17 +13,16 @@
  */
 package de.sciss.syntaxpane.actions;
 
-import java.awt.event.ActionEvent;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
+import de.sciss.syntaxpane.SyntaxDocument;
+
 import javax.swing.JEditorPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
-import de.sciss.syntaxpane.SyntaxDocument;
+import java.awt.event.ActionEvent;
+import java.util.*;
 
 /**
  * A Pair action inserts a pair of characters (left and right) around the
@@ -37,8 +36,8 @@ public class PairAction extends DefaultSyntaxAction implements DocumentListener 
         super("PAIR_ACTION");
     }
 
-    private final AtomicReference<Document> listeningDocument = new AtomicReference<Document>();
-    private final List<Integer> endPositions = Collections.synchronizedList(new LinkedList<Integer>());
+    private Document listeningDocument = null;
+    private final List<Integer> endPositions = new LinkedList<Integer>();
 
     private static Map<String, String> PAIRS = new HashMap<String, String>(4);
 
@@ -55,11 +54,11 @@ public class PairAction extends DefaultSyntaxAction implements DocumentListener 
 
         final String key = e.getActionCommand();
 
-        Document oldDoc = listeningDocument.get();
-        if (oldDoc != sDoc && listeningDocument.compareAndSet(oldDoc, sDoc)) {
-            if (oldDoc != null) {
-                oldDoc.removeDocumentListener(this);
+        if (listeningDocument != sDoc) {
+            if (listeningDocument != null) {
+                listeningDocument.removeDocumentListener(this);
             }
+            listeningDocument = sDoc;
             sDoc.addDocumentListener(this);
         }
 
@@ -75,19 +74,17 @@ public class PairAction extends DefaultSyntaxAction implements DocumentListener 
         } else {
             boolean unhandled = true;
             try {
-                synchronized (endPositions) {
-                    Iterator<Integer> positionIter = endPositions.iterator();
-                    while (positionIter.hasNext()) {
-                        int trackedPosition = positionIter.next();
-                        if (target.getCaretPosition() == trackedPosition) {
-                            String nextChar = target.getDocument().getText(target.getCaretPosition(), 1);
-                            if (nextChar.equals(key)) {
-                                target.replaceSelection("");
-                                target.setCaretPosition(target.getCaretPosition() + 1);
-                                positionIter.remove();
-                                unhandled = false;
-                                break;
-                            }
+                Iterator<Integer> positionIter = endPositions.iterator();
+                while (positionIter.hasNext()) {
+                    int trackedPosition = positionIter.next();
+                    if (target.getCaretPosition() == trackedPosition) {
+                        String nextChar = target.getDocument().getText(target.getCaretPosition(), 1);
+                        if (nextChar.equals(key)) {
+                            target.replaceSelection("");
+                            target.setCaretPosition(target.getCaretPosition() + 1);
+                            positionIter.remove();
+                            unhandled = false;
+                            break;
                         }
                     }
                 }
@@ -115,36 +112,32 @@ public class PairAction extends DefaultSyntaxAction implements DocumentListener 
 
     @Override
     public void insertUpdate(DocumentEvent e) {
-        synchronized (endPositions) {
-            ListIterator<Integer> positionIter = endPositions.listIterator();
-            while (positionIter.hasNext()) {
-                int position = positionIter.next();
-                if (position >= e.getOffset()) {
-                    position += e.getLength();
-                    positionIter.set(position);
-                } else {
-                    positionIter.remove();
-                }
+        ListIterator<Integer> positionIter = endPositions.listIterator();
+        while (positionIter.hasNext()) {
+            int position = positionIter.next();
+            if (position >= e.getOffset()) {
+                position += e.getLength();
+                positionIter.set(position);
+            } else {
+                positionIter.remove();
             }
         }
     }
 
     @Override
     public void removeUpdate(DocumentEvent e) {
-        synchronized (endPositions) {
-            ListIterator<Integer> positionIter = endPositions.listIterator();
-            while (positionIter.hasNext()) {
-                int position = positionIter.next();
-                if (position >= e.getOffset()) {
-                    if (position >= e.getOffset() + e.getLength()) {
-                        position -= e.getLength();
-                        positionIter.set(position);
-                    } else {
-                        positionIter.remove();
-                    }
+        ListIterator<Integer> positionIter = endPositions.listIterator();
+        while (positionIter.hasNext()) {
+            int position = positionIter.next();
+            if (position >= e.getOffset()) {
+                if (position >= e.getOffset() + e.getLength()) {
+                    position -= e.getLength();
+                    positionIter.set(position);
                 } else {
                     positionIter.remove();
                 }
+            } else {
+                positionIter.remove();
             }
         }
     }
