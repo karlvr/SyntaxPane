@@ -25,3 +25,6 @@ JSyntaxPane builds with sbt 0.13. The source code is purely Java at the moment, 
 
 To build run `sbt compile`. To run a demo application, run `sbt test:run`.
 
+## Contributing
+
+Please see the file [CONTRIBUTING.md](CONTRIBUTING.md) for details.
