@@ -295,7 +295,6 @@ public class QuickFindDialog extends javax.swing.JDialog
 			// The dsd doFindNext will always find from current pos,
 			// so we need to relocate to our saved pos before we call doFindNext
 			jLblStatus.setText(null);
-			System.out.println("QuickFindDialog.updateFind - " + oldCaretPosition);
 			t.setCaretPosition(oldCaretPosition);
 			if (!d.doFindNext(t)) {
 				jLblStatus.setText(java.util.ResourceBundle.getBundle("de/sciss/syntaxpane/Bundle").getString("QuickFindDialog.NotFound"));
