@@ -49,12 +49,6 @@ public class QuickFindDialog extends javax.swing.JDialog
 	private WeakReference<JTextComponent> target;
 	private WeakReference<DocumentSearchData> dsd;
 	private int oldCaretPosition;
-	/**
-	 * This will be set to true if ESC key is used to quit the form.
-	 * In that case, the caret will be restored to its old pos, otherwise
-	 * it will remain where the user probably clicked.
-	 */
-	private boolean escaped = false;
 
 	/**
 	 * Creates new form QuickFindDialog
@@ -87,16 +81,6 @@ public class QuickFindDialog extends javax.swing.JDialog
 			public void windowDeactivated(WindowEvent e) {
 				target.getDocument().removeDocumentListener(QuickFindDialog.this);
 				Markers.removeMarkers(target, marker);
-				if (escaped) {
-					Rectangle aRect;
-					try {
-						aRect = target.modelToView(oldCaretPosition);
-						target.setCaretPosition(oldCaretPosition);
-						target.scrollRectToVisible(aRect);
-					} catch (BadLocationException ex) {
-					}
-					escaped = false;
-				}
 				dispose();
 			}
 		};
@@ -315,7 +299,6 @@ public class QuickFindDialog extends javax.swing.JDialog
 
 	@Override
 	public void escapePressed() {
-		escaped = true;
 		setVisible(false);
 	}
 }
