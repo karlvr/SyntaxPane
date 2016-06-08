@@ -1,19 +1,12 @@
 name             := "SyntaxPane"
-
 version          := "1.1.5-SNAPSHOT"
-
 organization     := "de.sciss"
-
 description      := "An extension of Java Swing's JEditorKit that supports syntax highlighting for several languages."
-
-homepage         := Some(url("https://github.com/Sciss/" + name.value))
-
+homepage         := Some(url(s"https://github.com/Sciss/${name.value}"))
 licenses         := Seq("Apache 2.0 License" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 
-scalaVersion     := "2.11.7"
-
+scalaVersion     := "2.11.8"
 crossPaths       := false  // this is just a Java project right now!
-
 autoScalaLibrary := false
 
 mainClass in Compile := Some("de.sciss.syntaxpane.SyntaxTester")
