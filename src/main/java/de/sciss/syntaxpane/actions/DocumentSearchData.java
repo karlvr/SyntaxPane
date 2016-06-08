@@ -61,8 +61,10 @@ public class DocumentSearchData {
 
 	/**
 	 * Set the pattern to the given compiled pattern.
-	 * @see this#setPattern(String, boolean, boolean)
+	 *
 	 * @param pattern
+	 *
+	 * @see DocumentSearchData#setPattern(String, boolean, boolean)
 	 */
 	public void setPattern(Pattern pattern) {
 		this.pattern = pattern;

@@ -81,7 +81,9 @@ public class QuickFindDialog extends javax.swing.JDialog
 			public void windowDeactivated(WindowEvent e) {
 				target.getDocument().removeDocumentListener(QuickFindDialog.this);
 				Markers.removeMarkers(target, marker);
-				dispose();
+				removeWindowListener(this);
+				setVisible(false);  // do not dispose because dialog is cached and reused
+				target.requestFocus();
 			}
 		};
 		addWindowListener(closeListener);

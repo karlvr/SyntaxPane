@@ -151,9 +151,9 @@ public class JarServiceProvider {
      *     in German language</li>    
      *   <li>config_de_CH which might just contain entries for specific
      *     Swiss spelling variant of some words in a tooltip</li>
-     * <ul>     
+     * </ul>
      *
-     * If no filesis found, then a an empty Property instance will be returned
+     * If no file is found, then a an empty Property instance will be returned
      *
      * @param name name of file (use dots to separate subfolders).
      * @param locale The locale for which to read the files
@@ -184,7 +184,7 @@ public class JarServiceProvider {
     }
 	/**
 	 * Read a file in the META-INF/services named name appended with
-	 * ".properties", and returns it as a <code>Map<String, String></code>
+	 * ".properties", and returns it as a <code>Map&lt;String, String&gt;</code>
 	 * If no file is found, then a an empty Property instance will be returned
 	 * @param name name of file (use dots to separate subfolders).
 	 * @return Map of keys and values

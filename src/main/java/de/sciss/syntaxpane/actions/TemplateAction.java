@@ -22,11 +22,12 @@ import de.sciss.syntaxpane.SyntaxDocument;
  * the config ACTION-NAME.Template
  *
  * There are two kinds of templates:
+ * <ul>
  * <li>Simple Templates are replaced as is</li>
  * <li>Whole Line Templates will ensure a whole line is selected.
  * Each line in the selection will be prefixed, and postfixed with whatever appears
  * on the line in the template</li>
- *
+ * </ul>
  */
 public class TemplateAction extends DefaultSyntaxAction {
 

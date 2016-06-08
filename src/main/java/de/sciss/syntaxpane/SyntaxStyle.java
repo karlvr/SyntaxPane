@@ -103,12 +103,12 @@ public final class SyntaxStyle {
      * Draw text.  This can directly call the Utilities.drawTabbedText.
      * Sub-classes can override this method to provide any other decorations.
      * @param  segment - the source of the text
-     * @param  x - the X origin >= 0
-     * @param  y - the Y origin >= 0
+     * @param  x - the X origin &gt;= 0
+     * @param  y - the Y origin &gt;= 0
      * @param  graphics - the graphics context
      * @param e - how to expand the tabs. If this value is null, tabs will be 
      * expanded as a space character.
-     * @param startOffset - starting offset of the text in the document >= 0 
+     * @param startOffset - starting offset of the text in the document &gt;= 0
      * @return
      */
     public int drawText(Segment segment, int x, int y,

@@ -405,18 +405,22 @@ public class ActionUtils {
 	 * of the template.  The template String may contain any of the following
 	 * special tags.
 	 *
+	 * <ul>
 	 * <li>{@code #{selection}} replaced with the selection, if any.  If there is
 	 * no selection, then the {@code #{selection}} tag will be removed.
 	 * <li>{@code #{p:any text}} will be replaced by {@code any text} and then
 	 * set selection to {@code any text}
+	 * </ul>
 	 *
 	 * This method properly handles indentation as follows:
 	 * The indentation of the whole block will match the indentation of the caret
 	 * line, or the line with the beginning of the selection, if the selection is
-	 * in whole line, i.e.e one or more lines of selected text. {@see selectLines()}
+	 * in whole line, i.e.e one or more lines of selected text.
 	 *
-	 * @param target JEditorCOmponent to be affected
+	 * @param target JEditorComponent to be affected
 	 * @param templateLines template split as a String array of lines.
+	 *
+	 * @see ActionUtils#selectLines
 	 */
 	public static void insertLinesTemplate(JTextComponent target, String[] templateLines) {
 		// get some stuff we'll need:
@@ -460,12 +464,14 @@ public class ActionUtils {
 	 * of the template.  The template String may contain any of the following
 	 * special tags.
 	 *
+	 * <ul>
 	 * <li>{@code #{selection}} replaced with the selection, if any.  If there is
 	 * no selection, then the {@code #{selection}} tag will be removed.
 	 * <li>{@code #{p:AnyText}} will be replaced by {@code any text} and then
 	 * set the text selection to {@code AnyText}
+	 * </ul>
 	 *
-	 * This methood does NOT perform any indentation and the template should
+	 * This method does NOT perform any indentation and the template should
 	 * generally span one line only
 	 */
 	public static void insertSimpleTemplate(JTextComponent target, String template) {

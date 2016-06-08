@@ -47,7 +47,7 @@ import de.sciss.syntaxpane.TokenType;
  * are found first, we will properly match the longer identifiers which start with
  * a keyword.
  *
- * This behaviour can easily be modified by overriding the {@link compareTo} method
+ * This behaviour can easily be modified by overriding the {@code compareTo} method
  *
  * @author Ayman Al-Sairafi
  */

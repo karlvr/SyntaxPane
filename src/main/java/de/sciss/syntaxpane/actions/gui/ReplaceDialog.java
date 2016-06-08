@@ -312,5 +312,6 @@ public class ReplaceDialog extends javax.swing.JDialog
 	@Override
 	public void escapePressed() {
 		setVisible(false);
+        textComponent.requestFocus();
 	}
 }

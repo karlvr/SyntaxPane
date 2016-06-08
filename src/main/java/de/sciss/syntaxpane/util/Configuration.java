@@ -75,11 +75,14 @@ public class Configuration implements Map<String, String> {
      * is found, null is returned.
      * If the Regex ${key} is found, then it is replaced by the value of that
      * key within this (or parent's) map.
-     * Special COnstructs in ${}:
+     * Special Constructs in ${}:
+     * <ul>
      * <li><code>class_path</code> will be replaced by the name of the
      * Configuration (usually ClassName) with "." replaced by "/", and then
      * converted to all lowercase</li>
-     * <li><code>class_simpleName</code></li> is replaced by class.SimpleName
+     * <li><code>class_simpleName</code> is replaced by class.SimpleName</li>
+     * </ul>
+     *
      * @param key
      * @return
      */
@@ -137,7 +140,7 @@ public class Configuration implements Map<String, String> {
     /**
      * Gets an integer from the properties.  If number cannot be found
      * or if it cannot be decoded, the default is returned
-     * The integer is decoded using {@link Integer.decode(String)}
+     * The integer is decoded using {@link Integer#decode(String)}
      * @param key
      * @param Default
      * @return
