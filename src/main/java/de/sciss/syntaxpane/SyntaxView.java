@@ -37,11 +37,11 @@ public class SyntaxView extends PlainView {
     public static final String PROPERTY_RIGHT_MARGIN_COLUMN = "RightMarginColumn";
     public static final String PROPERTY_SINGLE_COLOR_SELECT = "SingleColorSelect";
     private static final Logger log = Logger.getLogger(SyntaxView.class.getName());
-    private SyntaxStyle DEFAULT_STYLE = SyntaxStyles.getInstance().getStyle(TokenType.DEFAULT);
     private final boolean singleColorSelect;
     private final int rightMarginColumn;
     private final Color rightMarginColor;
     private final SyntaxStyles styles;
+    private final SyntaxStyle defaultStyle;
 
     /**
      * Construct a new view using the given configuration and prefix given
@@ -57,6 +57,7 @@ public class SyntaxView extends PlainView {
         rightMarginColumn = config.getInteger(PROPERTY_RIGHT_MARGIN_COLUMN,
                 0);
         styles = SyntaxStyles.read(config);
+        defaultStyle = styles.getStyle(TokenType.DEFAULT);
     }
 
     @Override
@@ -86,7 +87,7 @@ public class SyntaxView extends PlainView {
                 // it in the default type
                 if (start < t.start) {
                     doc.getText(start, t.start - start, segment);
-                    x = DEFAULT_STYLE.drawText(segment, x, y, graphics, this, start);
+                    x = defaultStyle.drawText(segment, x, y, graphics, this, start);
                 }
                 // t and s are the actual start and length of what we should
                 // put on the screen.  assume these are the whole token....
@@ -110,7 +111,7 @@ public class SyntaxView extends PlainView {
             // now for any remaining text not tokenized:
             if (start < p1) {
                 doc.getText(start, p1 - start, segment);
-                x = DEFAULT_STYLE.drawText(segment, x, y, graphics, this, start);
+                x = defaultStyle.drawText(segment, x, y, graphics, this, start);
             }
         } catch (BadLocationException ex) {
             log.log(Level.SEVERE, "Requested: " + ex.offsetRequested(), ex);
