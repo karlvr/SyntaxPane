@@ -12,6 +12,8 @@
  * limitations under the License.
  */
 
+// cf. http://spec.commonmark.org
+
 package de.sciss.syntaxpane.lexers;
 
 import de.sciss.syntaxpane.Token;
@@ -51,6 +53,38 @@ import de.sciss.syntaxpane.TokenType;
 %xstate COMMENT, TAG, ESCAPESTATE, CODESTATE, CHARVALUE
 
 /* markdown */
+
+//nl                  = [\n|\r|\r\n]
+//tab                 = [\t\f]
+//space               = " "
+//newstring           = ([\n|\r|\r\n]{3,100})([a-zA-Z0-9.,;:]+)
+//string              = [a-zA-Z0-9.,;:]+
+//newstar             = ([\n|\r|\r\n]{3,100})(\*)
+//star                = \*
+//newstarDouble       = ([\n|\r|\r\n]{3,100})(\*\*)
+//starDouble			= \*\*
+//newunderscore       = ([\n|\r|\r\n]{3,100})(\_)
+//underscore          = \_
+//newunderscoreDouble = ([\n|\r|\r\n]{3,100})(__)
+//underscoreDouble    = __
+//squareBracketO      = \[
+//squareBracketC      = \]
+//roundBracketO       = \(
+//roundBracketC       = \)
+//equal               = (\=)+
+//hash                = #
+//rowSpaces           = [" "]{1,3}
+//startOrdList        = [" "]{1,3}[0-9]+.[" "]*
+//startUnList         = [" "]{1,3}(\*|\+|\-)((" ")+| \t)
+//startPre            = [" "]{4}
+//id                  = [A-Za-z_][A-Za-z0-9_]*
+//IntegerNumber       = 0 | [1-9][0-9]*
+//charValue           = [a-zA-Z]
+//FloatLiteral        = ({FLit1}|{FLit2}|{FLit3}) {Exponent}?
+//FLit1               = [0-9]+ \. [0-9]*
+//FLit2               = \. [0-9]+
+//FLit3               = [0-9]+
+//Exponent            = [eE] [+-]? [0-9]+
 
 
 
@@ -256,6 +290,17 @@ SQuoteStringChar = [^\r\n\']
 %%
 
 <YYINITIAL> {
+
+/*
+    A line consisting of 0-3 spaces of indentation, followed by a sequence of three or more
+    matching -, _, or * characters, each followed optionally by any number of spaces,
+    forms a thematic break.
+
+ */
+
+  ^\s*\n[ ]{0,3}("--"[\-]+ | "**"[\*]+ | "__"[\_]+ )[ ]*\n { return token(TokenType.DELIMITER); }
+
+/* HTML support */
 
   "&"  [a-z]+ ";"                |
   "&#" [:digit:]+ ";"            { return token(TokenType.KEYWORD2); }
