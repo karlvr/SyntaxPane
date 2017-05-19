@@ -56,7 +56,14 @@ import de.sciss.syntaxpane.TokenType;
 
 //nl                  = [\n|\r|\r\n]
 //tab                 = [\t\f]
-//space               = " "
+
+space               = " "
+spaceIndent         = {space}{0,3}
+spacesOpt           = [ ]*
+nonWhite            = [^ \t\f\r\n]
+nonWhiteStar        = [^ \*\t\f\r\n]
+nonWhiteUS          = [^ \_\t\f\r\n]
+
 //newstring           = ([\n|\r|\r\n]{3,100})([a-zA-Z0-9.,;:]+)
 //string              = [a-zA-Z0-9.,;:]+
 //newstar             = ([\n|\r|\r\n]{3,100})(\*)
@@ -292,13 +299,175 @@ SQuoteStringChar = [^\r\n\']
 <YYINITIAL> {
 
 /*
+
+
+ */
+
+/*
+    4.3 Setext headings
+
+    An ATX heading consists of a string of characters, parsed as inline content, between an opening
+    sequence of 1–6 unescaped `#` characters and an optional closing sequence of any number of unescaped
+    `#` characters. The opening sequence of `#` characters must be followed by a space or by the end of
+    line. The optional closing sequence of `#`s must be preceded by a space and may be followed by spaces
+    only. The opening `#` character may be indented 0-3 spaces. The raw contents of the heading are
+    stripped of leading and trailing spaces before being parsed as inline content. The heading level is
+    equal to the number of `#` characters in the opening sequence.
+
+*/
+
+    ^{spaceIndent} "#"{1,6} ({space}~\n|\n) { return token(TokenType.KEYWORD2); }
+
+/*
+    4.3 Setext headings
+
+    A setext heading consists of one or more lines of text, each containing at least one non-whitespace
+    character, with no more than 3 spaces indentation, followed by a setext heading underline. The lines
+    of text must be such that, were they not followed by the setext heading underline, they would be
+    interpreted as a paragraph: they cannot be interpretable as a code fence, ATX heading, block quote,
+    thematic break, list item, or HTML block.
+
+    A setext heading underline is a sequence of `=` characters or a sequence of `-` characters, with no
+    more than 3 spaces indentation and any number of trailing spaces. If a line containing a single `-`
+    can be interpreted as an empty list items, it should be interpreted this way and not as a setext
+    heading underline.
+
+    The heading is a level 1 heading if `=` characters are used in the setext heading underline, and a
+    level 2 heading if `-` characters are used. The contents of the heading are the result of parsing
+    the preceding lines of text as CommonMark inline content.
+
+    In general, a setext heading need not be preceded or followed by a blank line. However, it cannot
+    interrupt a paragraph, so when a setext heading comes after a paragraph, a blank line is needed
+    between them.
+
+    XXX TODO
+
+ */
+
+/*
+    4.1 Thematic breaks
+
     A line consisting of 0-3 spaces of indentation, followed by a sequence of three or more
     matching -, _, or * characters, each followed optionally by any number of spaces,
     forms a thematic break.
 
  */
 
-  ^\s*\n[ ]{0,3}("--"[\-]+ | "**"[\*]+ | "__"[\_]+ )[ ]*\n { return token(TokenType.DELIMITER); }
+  ^{spaceIndent}(\-{spacesOpt}\-{spacesOpt}(\-{spacesOpt})+ | \*{spacesOpt}\*{spacesOpt}(\*{spacesOpt})+ | \_{spacesOpt}\_{spacesOpt}(\_{spacesOpt})+)\n { return token(TokenType.DELIMITER); }
+
+/*
+    4.7 Link reference definitions
+
+    XXX TODO
+
+ */
+
+/*
+    5.1 Block quotes
+
+    XXX TODO
+
+ */
+
+/*
+    5.2 List items
+
+    XXX TODO
+
+ */
+
+/*
+
+    5.3 Lists
+
+    XXX TODO
+
+ */
+
+/*
+
+    6.1 Backslash escapes
+
+    XXX TODO
+
+ */
+
+/*
+
+    6.2 Entity and numeric character references
+
+    XXX TODO
+
+ */
+
+/*
+
+    6.3 Code spans
+
+    A backtick string is a string of one or more backtick characters (<code>`</code>) that is neither preceded
+    nor followed by a backtick.
+
+    A code span begins with a backtick string and ends with a backtick string of equal length. The contents
+    of the code span are the characters between the two backtick strings, with leading and trailing spaces
+    and line endings removed, and whitespace collapsed to single spaces.
+
+    XXX TODO: we only implement simple check for single matching backticks
+
+ */
+
+  "`" ~ "`" { return token(TokenType.STRING); }
+
+/*
+
+    6.4 Emphasis and strong emphasis
+
+    XXX TODO - the spec is horrible
+
+ */
+
+  "**" (({nonWhiteStar} "**") | ({nonWhiteStar} ~ ({nonWhiteStar} "**"))) { return token(TokenType.TYPE2); }
+  "__" (({nonWhiteUS  } "__") | ({nonWhiteUS}   ~ ({nonWhiteUS}   "__"))) { return token(TokenType.TYPE2); }
+
+  "*"  (({nonWhiteStar} "*" ) | ({nonWhiteStar} ~ ({nonWhiteStar} "*" ))) { return token(TokenType.TYPE ); }
+  "_"  (({nonWhiteUS}   "_" ) | ({nonWhiteUS}   ~ ({nonWhiteUS}   "_" ))) { return token(TokenType.TYPE ); }
+
+/*
+
+    6.5 Links
+
+    XXX TODO
+
+ */
+
+/*
+
+    6.6 Images
+
+    XXX TODO
+
+ */
+
+/*
+    6.7 Autolinks
+
+    XXX TODO
+
+ */
+
+/*
+
+    6.8 Raw HTML
+
+    XXX TODO
+
+ */
+
+/*
+    6.9 Hard line breaks
+
+    XXX TODO
+
+ */
 
 /* HTML support */
 
