@@ -24,13 +24,13 @@ import de.sciss.syntaxpane.SyntaxDocument;
  */
 public class QuickFindAction extends DefaultSyntaxAction {
 
-	public QuickFindAction() {
-		super("quick-find");
-	}
+    public QuickFindAction() {
+        super("quick-find");
+    }
 
-	@Override
-	public void actionPerformed(JTextComponent target, SyntaxDocument sDoc,
-		int dot, ActionEvent e) {
-		DocumentSearchData.getFromEditor(target).showQuickFindDialog(target);
-	}
+    @Override
+    public void actionPerformed(JTextComponent target, SyntaxDocument sDoc,
+        int dot, ActionEvent e) {
+        DocumentSearchData.getFromEditor(target).showQuickFindDialog(target);
+    }
 }

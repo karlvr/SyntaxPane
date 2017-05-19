@@ -25,7 +25,7 @@ import de.sciss.syntaxpane.actions.gui.HTMLPreviewFrame;
  * 
  */
 public class HTMLPreviewAction extends DefaultSyntaxAction {
-	public static final String HTML_PREVIEW_WINDOW = "html-preview-window";
+    public static final String HTML_PREVIEW_WINDOW = "html-preview-window";
 
     public HTMLPreviewAction() {
         super("HTML_PREVIEW");

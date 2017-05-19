@@ -158,6 +158,7 @@ SingleCharacter = [^\r\n\'\\]
   "Double"                       |
   "Any"                          |
   "AnyRef"                       |
+  "AnyVal"                       |
   "String"                       { return token(TokenType.TYPE); }
 
   /* Some Scala predefines */

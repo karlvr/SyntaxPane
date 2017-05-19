@@ -69,9 +69,9 @@ VariableReference = "$" {QName}
 LineTerminator = \r|\n|\r\n
 
 NodeType =  "comment"
-    			| "text"
-		    	| "processing-instruction"
-		    	| "node"
+          | "text"
+          | "processing-instruction"
+          | "node"
 
 OperatorName = "and" | "or" | "mod" | "div"
 
@@ -190,22 +190,22 @@ XPathFunction = "default"
  | "static-base-uri"
 
 AxisName =    "ancestor"
-			      | "ancestor-or-self"
-			      | "attribute"
-			      | "child"
-			      | "descendant"
-			      | "descendant-or-self"
-			      | "following"
-			      | "following-sibling"
-			      | "namespace"
-			      | "parent"
-			      | "preceding"
-			      | "preceding-sibling"
-			      | "self"
+            | "ancestor-or-self"
+            | "attribute"
+            | "child"
+            | "descendant"
+            | "descendant-or-self"
+            | "following"
+            | "following-sibling"
+            | "namespace"
+            | "parent"
+            | "preceding"
+            | "preceding-sibling"
+            | "self"
 
 Number = {Digits} | {Digits} "." {Digits}
 
-S	   =   	[\u20] | [\u9] | [\uD] | [\uA]
+S    =    [\u20] | [\u9] | [\uD] | [\uA]
 
 %state STRING_DOUBLE, STRING_SINGLE
 

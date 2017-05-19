@@ -33,8 +33,8 @@ public class FindNextAction extends DefaultSyntaxAction {
         DocumentSearchData dsd = DocumentSearchData.getFromEditor(target);
         if (dsd != null) {
             if(!dsd.doFindNext(target)) {
-				dsd.msgNotFound(target);
-			}
+                dsd.msgNotFound(target);
+            }
         }
     }
 }

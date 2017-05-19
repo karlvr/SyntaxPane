@@ -24,9 +24,9 @@ import de.sciss.syntaxpane.SyntaxDocument;
  */
 public class RedoAction extends AbstractUndoRedoAction {
 
-	public RedoAction() {
-		super(SyntaxDocument.CAN_REDO, "REDO");
-	}
+    public RedoAction() {
+        super(SyntaxDocument.CAN_REDO, "REDO");
+    }
 
     @Override
     protected boolean updateState() {
@@ -34,7 +34,7 @@ public class RedoAction extends AbstractUndoRedoAction {
     }
 
     @Override
-	public void actionPerformed(JTextComponent target, SyntaxDocument sDoc, int dot, ActionEvent e) {
-		if (sDoc != null) sDoc.doRedo();
-	}
+    public void actionPerformed(JTextComponent target, SyntaxDocument sDoc, int dot, ActionEvent e) {
+        if (sDoc != null) sDoc.doRedo();
+    }
 }

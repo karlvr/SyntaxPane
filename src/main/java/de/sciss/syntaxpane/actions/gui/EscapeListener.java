@@ -23,9 +23,9 @@ import javax.swing.RootPaneContainer;
  */
 public interface EscapeListener extends RootPaneContainer {
 
-	/**
-	 * This method will be called when ESC key is pressed.
-	 */
-	public void escapePressed();
+    /**
+     * This method will be called when ESC key is pressed.
+     */
+    public void escapePressed();
 
 }

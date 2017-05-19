@@ -36,7 +36,7 @@ import de.sciss.syntaxpane.util.SwingUtils;
  * @author Ayman Al-Sairafi
  */
 public class ComboCompletionDialog 
-	extends javax.swing.JDialog implements EscapeListener {
+    extends javax.swing.JDialog implements EscapeListener {
 
     /**
      * The result returned to the caller
@@ -54,7 +54,7 @@ public class ComboCompletionDialog
      * @param target
      */
     public ComboCompletionDialog(JTextComponent target) {
-		super(SwingUtilities.getWindowAncestor(target), ModalityType.APPLICATION_MODAL);
+        super(SwingUtilities.getWindowAncestor(target), ModalityType.APPLICATION_MODAL);
         initComponents();
         jTxtItem.getDocument().addDocumentListener(new DocumentListener() {
 
@@ -226,13 +226,13 @@ public class ComboCompletionDialog
         }
     }//GEN-LAST:event_jTxtItemKeyPressed
 
-	private void jLstItemsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLstItemsMouseClicked
-		if(evt.getClickCount() == 2) {
-			String selected = jLstItems.getSelectedValue().toString();
-			target.replaceSelection(selected);
-			setVisible(false);
-		}
-	}//GEN-LAST:event_jLstItemsMouseClicked
+    private void jLstItemsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLstItemsMouseClicked
+        if(evt.getClickCount() == 2) {
+            String selected = jLstItems.getSelectedValue().toString();
+            target.replaceSelection(selected);
+            setVisible(false);
+        }
+    }//GEN-LAST:event_jLstItemsMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList jLstItems;
@@ -240,8 +240,8 @@ public class ComboCompletionDialog
     private javax.swing.JTextField jTxtItem;
     // End of variables declaration//GEN-END:variables
 
-	@Override
-	public void escapePressed() {
-		setVisible(false);
-	}
+    @Override
+    public void escapePressed() {
+        setVisible(false);
+    }
 }

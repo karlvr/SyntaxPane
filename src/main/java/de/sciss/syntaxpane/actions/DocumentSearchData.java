@@ -42,159 +42,159 @@ import de.sciss.syntaxpane.actions.gui.ReplaceDialog;
  */
 public class DocumentSearchData {
 
-	private static final String PROPERTY_KEY = "SearchData";
-	private Pattern pattern = null;
-	private boolean wrap = true;
-	private ReplaceDialog replaceDlg;
-	private QuickFindDialog quickFindDlg;
+    private static final String PROPERTY_KEY = "SearchData";
+    private Pattern pattern = null;
+    private boolean wrap = true;
+    private ReplaceDialog replaceDlg;
+    private QuickFindDialog quickFindDlg;
 
-	/**
-	 * This prevents creating a new instance.  You must call the getFromEditor
-	 * to crate a new instance attached to a Document
-	 *
-	 */
-	private DocumentSearchData() {
-	}
-
-	public Pattern getPattern() {
-		return pattern;
-	}
-
-	/**
-	 * Sets the pattern to the given compiled pattern.
-	 *
-	 * @see DocumentSearchData#setPattern(String, boolean, boolean)
-	 */
-	public void setPattern(Pattern pattern) {
-		this.pattern = pattern;
-	}
-
-	/**
-	 * Sets the pattern from a string and flags
-	 * @param pat String of pattern
-	 * @param regex true if the pattern should be a regexp
-	 * @param ignoreCase true to ignore case
-	 */
-	public void setPattern(String pat, boolean regex, boolean ignoreCase)
-		throws PatternSyntaxException {
-		if (pat != null && pat.length() > 0) {
-			int flag = (regex) ? 0 : Pattern.LITERAL;
-			flag |= (ignoreCase) ? Pattern.CASE_INSENSITIVE : 0;
-			setPattern(Pattern.compile(pat, flag));
-		} else {
-			setPattern(null);
-		}
-	}
-
-	public boolean isWrap() {
-		return wrap;
-	}
-
-	public void setWrap(boolean wrap) {
-		this.wrap = wrap;
-	}
-
-	/**
-	 * Gets the Search data from a Document.  If document does not have any
-	 * search data, then a new instance is added, put and reurned.
-	 * @param target JTextCOmponent we are attaching to
-	 */
-	public static DocumentSearchData getFromEditor(JTextComponent target) {
-		if (target == null) {
-			return null;
-		}
-		Object o = target.getDocument().getProperty(PROPERTY_KEY);
-		if (o instanceof DocumentSearchData) {
-			DocumentSearchData documentSearchData = (DocumentSearchData) o;
-			return documentSearchData;
-		} else {
-			DocumentSearchData newDSD = new DocumentSearchData();
-			target.getDocument().putProperty(PROPERTY_KEY, newDSD);
-			return newDSD;
-		}
-	}
-
-	/**
-	 * Performs a replace all operation on the given component.
-	 * Note that this create a new duplicate String big as the entire
-	 * document and then assign it to the target text component
-	 */
-	public void doReplaceAll(JTextComponent target, String replacement) {
-		if (replacement == null) {
-			replacement = "";
-		}
-		SyntaxDocument sDoc = ActionUtils.getSyntaxDocument(target);
-		if (sDoc == null) {
-			return;
-		}
-		if (getPattern() == null) {
-			return;
-		}
-		Matcher matcher = sDoc.getMatcher(getPattern());
-		String newText = matcher.replaceAll(replacement);
-		try {
-			sDoc.replace(0, sDoc.getLength(), newText, null);
-		} catch (BadLocationException ex) {
-			Logger.getLogger(DocumentSearchData.class.getName()).log(Level.SEVERE, null, ex);
-		}
-	}
-
-	/**
-	 * Replaces single occurrence of match with the replacement.
-	 */
-	public void doReplace(JTextComponent target, String replacement) {
-		if (target.getSelectedText() != null) {
-			target.replaceSelection(replacement == null ? "" : replacement);
-			doFindNext(target,true);
-		}
-	}
-
-	/**
-	 * Finds the previous match
-	 */
-	public boolean doFindPrev(JTextComponent target) {
-		if (getPattern() == null) {
-			return false;
-		}
-		SyntaxDocument sDoc = ActionUtils.getSyntaxDocument(target);
-		if (sDoc == null) {
-			return false;
-		}
-		int dot = target.getSelectionStart();
-		Matcher matcher = sDoc.getMatcher(getPattern());
-		if (matcher == null) {
-			return false;
-		}
-		// we have no way of jumping to last match, so we need to
-		// go throw all matches, and stop when we reach current pos
-		int start = -1;
-		int end = -1;
-		while (matcher.find()) {
-			if (matcher.end() >= dot) {
-				break;
-			}
-			start = matcher.start();
-			end = matcher.end();
-		}
-		if (end > 0) {
-			target.select(start, end);
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Performs a FindNext operation on the given text component.  Position
-	 * the caret at the start of the next found pattern.
+    /**
+     * This prevents creating a new instance.  You must call the getFromEditor
+     * to crate a new instance attached to a Document
      *
-	 * @return true if pattern is found, false otherwise
-	 */
-	public boolean doFindNext(JTextComponent target) {
-	    return doFindNext(target, false);
-	}
-	
-	public boolean doFindNext(JTextComponent target, boolean isReplace) {
+     */
+    private DocumentSearchData() {
+    }
+
+    public Pattern getPattern() {
+        return pattern;
+    }
+
+    /**
+     * Sets the pattern to the given compiled pattern.
+     *
+     * @see DocumentSearchData#setPattern(String, boolean, boolean)
+     */
+    public void setPattern(Pattern pattern) {
+        this.pattern = pattern;
+    }
+
+    /**
+     * Sets the pattern from a string and flags
+     * @param pat String of pattern
+     * @param regex true if the pattern should be a regexp
+     * @param ignoreCase true to ignore case
+     */
+    public void setPattern(String pat, boolean regex, boolean ignoreCase)
+        throws PatternSyntaxException {
+        if (pat != null && pat.length() > 0) {
+            int flag = (regex) ? 0 : Pattern.LITERAL;
+            flag |= (ignoreCase) ? Pattern.CASE_INSENSITIVE : 0;
+            setPattern(Pattern.compile(pat, flag));
+        } else {
+            setPattern(null);
+        }
+    }
+
+    public boolean isWrap() {
+        return wrap;
+    }
+
+    public void setWrap(boolean wrap) {
+        this.wrap = wrap;
+    }
+
+    /**
+     * Gets the Search data from a Document.  If document does not have any
+     * search data, then a new instance is added, put and reurned.
+     * @param target JTextCOmponent we are attaching to
+     */
+    public static DocumentSearchData getFromEditor(JTextComponent target) {
+        if (target == null) {
+            return null;
+        }
+        Object o = target.getDocument().getProperty(PROPERTY_KEY);
+        if (o instanceof DocumentSearchData) {
+            DocumentSearchData documentSearchData = (DocumentSearchData) o;
+            return documentSearchData;
+        } else {
+            DocumentSearchData newDSD = new DocumentSearchData();
+            target.getDocument().putProperty(PROPERTY_KEY, newDSD);
+            return newDSD;
+        }
+    }
+
+    /**
+     * Performs a replace all operation on the given component.
+     * Note that this create a new duplicate String big as the entire
+     * document and then assign it to the target text component
+     */
+    public void doReplaceAll(JTextComponent target, String replacement) {
+        if (replacement == null) {
+            replacement = "";
+        }
+        SyntaxDocument sDoc = ActionUtils.getSyntaxDocument(target);
+        if (sDoc == null) {
+            return;
+        }
+        if (getPattern() == null) {
+            return;
+        }
+        Matcher matcher = sDoc.getMatcher(getPattern());
+        String newText = matcher.replaceAll(replacement);
+        try {
+            sDoc.replace(0, sDoc.getLength(), newText, null);
+        } catch (BadLocationException ex) {
+            Logger.getLogger(DocumentSearchData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Replaces single occurrence of match with the replacement.
+     */
+    public void doReplace(JTextComponent target, String replacement) {
+        if (target.getSelectedText() != null) {
+            target.replaceSelection(replacement == null ? "" : replacement);
+            doFindNext(target,true);
+        }
+    }
+
+    /**
+     * Finds the previous match
+     */
+    public boolean doFindPrev(JTextComponent target) {
+        if (getPattern() == null) {
+            return false;
+        }
+        SyntaxDocument sDoc = ActionUtils.getSyntaxDocument(target);
+        if (sDoc == null) {
+            return false;
+        }
+        int dot = target.getSelectionStart();
+        Matcher matcher = sDoc.getMatcher(getPattern());
+        if (matcher == null) {
+            return false;
+        }
+        // we have no way of jumping to last match, so we need to
+        // go throw all matches, and stop when we reach current pos
+        int start = -1;
+        int end = -1;
+        while (matcher.find()) {
+            if (matcher.end() >= dot) {
+                break;
+            }
+            start = matcher.start();
+            end = matcher.end();
+        }
+        if (end > 0) {
+            target.select(start, end);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Performs a FindNext operation on the given text component.  Position
+     * the caret at the start of the next found pattern.
+     *
+     * @return true if pattern is found, false otherwise
+     */
+    public boolean doFindNext(JTextComponent target) {
+        return doFindNext(target, false);
+    }
+
+    public boolean doFindNext(JTextComponent target, boolean isReplace) {
             if (getPattern() == null) {
                     return false;
             }
@@ -232,31 +232,31 @@ public class DocumentSearchData {
             }
     }
 
-	/**
-	 * Displays an OptionPane dialog that the search string is not found
-	 */
-	public void msgNotFound(Component target) {
-		JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(target),
-			MessageFormat.format(java.util.ResourceBundle.getBundle("de/sciss/syntaxpane/Bundle")
+    /**
+     * Displays an OptionPane dialog that the search string is not found
+     */
+    public void msgNotFound(Component target) {
+        JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(target),
+            MessageFormat.format(java.util.ResourceBundle.getBundle("de/sciss/syntaxpane/Bundle")
                     .getString("DocumentSearchData.SearchStringNotFound"), getPattern()),
-			java.util.ResourceBundle.getBundle("de/sciss/syntaxpane/Bundle")
+            java.util.ResourceBundle.getBundle("de/sciss/syntaxpane/Bundle")
                     .getString("DocumentSearchData.Find"), JOptionPane.INFORMATION_MESSAGE);
-	}
+    }
 
-	/**
-	 * Shows the Find and Replace dialog for the given frame
-	 */
-	public void showReplaceDialog(JTextComponent target) {
-		if (replaceDlg == null) {
-			replaceDlg = new ReplaceDialog(target, this);
-		}
-		replaceDlg.setVisible(true);
-	}
+    /**
+     * Shows the Find and Replace dialog for the given frame
+     */
+    public void showReplaceDialog(JTextComponent target) {
+        if (replaceDlg == null) {
+            replaceDlg = new ReplaceDialog(target, this);
+        }
+        replaceDlg.setVisible(true);
+    }
 
-	public void showQuickFindDialog(JTextComponent target) {
-		if (quickFindDlg == null) {
-			quickFindDlg = new QuickFindDialog(target, this);
-		}
-		quickFindDlg.showFor(target);
-	}
+    public void showQuickFindDialog(JTextComponent target) {
+        if (quickFindDlg == null) {
+            quickFindDlg = new QuickFindDialog(target, this);
+        }
+        quickFindDlg.showFor(target);
+    }
 }

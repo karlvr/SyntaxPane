@@ -26,12 +26,11 @@ import de.sciss.syntaxpane.actions.gui.EscapeListener;
  */
 public class SwingUtils {
 
-	/**
-	 * FIXME:  These two addEscapeListener can be called on a new interface
-	 * that implements RootPainCOntainer (Swing) and a new method that
-	 * is called
-	 * @param dialog
-	 */
+    /**
+     * FIXME:  These two addEscapeListener can be called on a new interface
+     * that implements RootPainCOntainer (Swing) and a new method that
+     * is called
+     */
     public static void addEscapeListener(final EscapeListener dialog) {
         ActionListener escListener = new ActionListener() {
 

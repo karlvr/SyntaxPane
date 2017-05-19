@@ -30,7 +30,7 @@ import de.sciss.syntaxpane.util.JarServiceProvider;
 /**
  * The Styles to use for each TokenType.  The defaults are created here, and
  * then the resource META-INF/services/syntaxstyles.properties is read and
- * merged.  You can also pass a properties instance and merge your prefered
+ * merged.  You can also pass a properties instance and merge your preferred
  * styles into the default styles.
  *
  * Text is drawn by forwarding the drawText request to the SyntaxStyle for the

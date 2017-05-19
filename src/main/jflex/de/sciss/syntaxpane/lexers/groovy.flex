@@ -14,7 +14,6 @@
 
 package de.sciss.syntaxpane.lexers;
 
-
 import de.sciss.syntaxpane.Token;
 import de.sciss.syntaxpane.TokenType;
 

@@ -11,8 +11,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.sciss.syntaxpane.lexers;
 
+package de.sciss.syntaxpane.lexers;
 
 import de.sciss.syntaxpane.Token;
 import de.sciss.syntaxpane.TokenType;

@@ -11,8 +11,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.sciss.syntaxpane.lexers;
 
+package de.sciss.syntaxpane.lexers;
 
 import de.sciss.syntaxpane.Token;
 import de.sciss.syntaxpane.TokenType;
@@ -89,16 +89,16 @@ Reserved =
    "AS"                  |
    "ASC"                 |
    "AUTOMATIC"           |
-   "BEGIN"		 |
+   "BEGIN"               |
    "BEFORE"              |
    "BETWEEN"             |
    "BIGINT"              |
    "BINARY"              |
    "BLOB"                |
    "BOTH"                |
-   "BUFFERPOOL"		 |
+   "BUFFERPOOL"          |
    "BY"                  |
-   "CACHE"		 |
+   "CACHE"               |
    "CALL"                |
    "CASCADE"             |
    "CASE"                |
@@ -108,21 +108,21 @@ Reserved =
    "CHECK"               |
    "COLLATE"             |
    "COLUMN"              |
-   "COMMIT"		 |
+   "COMMIT"              |
    "CONDITION"           |
-   "CONSTANT"		 |
+   "CONSTANT"            |
    "CONSTRAINT"          |
    "CONTINUE"            |
    "CONVERT"             |
    "CREATE"              |
    "CROSS"               |
    "CURSOR"              |
-   "DATE"		 |
+   "DATE"                |
    "DATABASE"            |
    "DATABASES"           |
    "DEC"                 |
    "DECIMAL"             |
-   "DECODE"		 |
+   "DECODE"              |
    "DECLARE"             |
    "DEFAULT"             |
    "DELAYED"             |
@@ -140,9 +140,9 @@ Reserved =
    "ELSE"                |
    "ELSEIF"              |
    "ENCLOSED"            |
-   "END"		 |
+   "END"                 |
    "ESCAPED"             |
-   "EXCEPTION" 		 |
+   "EXCEPTION"           |
    "EXISTS"              |
    "EXIT"                |
    "EXPLAIN"             |
@@ -155,9 +155,9 @@ Reserved =
    "FORCE"               |
    "FOREIGN"             |
    "FROM"                |
-   "FUNCTION"		 |
+   "FUNCTION"            |
    "FULLTEXT"            |
-   "GLOBAL TEMPORARY"	 |
+   "GLOBAL TEMPORARY"    |
    "GRANT"               |
    "GROUP"               |
    "HAVING"              |
@@ -175,7 +175,7 @@ Reserved =
    "INTERVAL"            |
    "INTO"                |
    "IS"                  |
-   "IS REF CURSOR"	 |
+   "IS REF CURSOR"       |
    "ITERATE"             |
    "JOIN"                |
    "KEY"                 |
@@ -193,38 +193,38 @@ Reserved =
    "LOOP"                |
    "MATCH"               |
    "MERGE"               |
-   "MINVALUE"		 |
-   "MAXVALUE"		 |
+   "MINVALUE"            |
+   "MAXVALUE"            |
    "MOD"                 |
    "MODIFIES"            |
    "NATURAL"             |
-   "NOCYCLE"		 |
-   "NOORDER"		 |
+   "NOCYCLE"             |
+   "NOORDER"             |
    "NOT"                 |
    "NULL"                |
    "NUMERIC"             |
    "NUMBER"              |
    "ON"                  |
-   "OPEN"		 |
+   "OPEN"                |
    "OPTIMIZE"            |
    "OPTION"              |
    "OPTIONALLY"          |
    "OR"                  |
    "ORDER"               |
-   "OTHERS"		 |
+   "OTHERS"              |
    "OUT"                 |
    "OUTER"               |
    "OUTFILE"             |
-   "PACKAGE"		 |
-   "PACKAGE BODY"	 |
-   "PAGESIZE"		 |
-   "PLS_INTEGER"	 |
-   "PRAGMA"		 |
+   "PACKAGE"             |
+   "PACKAGE BODY"        |
+   "PAGESIZE"            |
+   "PLS_INTEGER"         |
+   "PRAGMA"              |
    "PRECISION"           |
    "PRIMARY"             |
    "PROCEDURE"           |
    "PURGE"               |
-   "RAISE"		 |
+   "RAISE"               |
    "READ"                |
    "READS"               |
    "REAL"                |
@@ -240,16 +240,16 @@ Reserved =
    "REVOKE"              |
    "RIGHT"               |
    "RLIKE"               |
-   "ROLLBACK"		 |
-   "ROWCOUNT"		 |
-   "ROWTYPE"		 |
-   "SIZE"		 |
+   "ROLLBACK"            |
+   "ROWCOUNT"            |
+   "ROWTYPE"             |
+   "SIZE"                |
    "SCHEMA"              |
    "SCHEMAS"             |
    "SELECT"              |
    "SENSITIVE"           |
    "SEPARATOR"           |
-   "SEQUENCE"		 |
+   "SEQUENCE"            |
    "SET"                 |
    "SHOW"                |
    "SMALLINT"            |
@@ -261,19 +261,19 @@ Reserved =
    "SQLSTATE"            |
    "SQLWARNING"          |
    "STARTING"            |
-   "SYSDATE"		 |
+   "SYSDATE"             |
    "TABLE"               |
-   "TABLESPACE"		 |
+   "TABLESPACE"          |
    "TERMINATED"          |
    "THEN"                |
    "TO"                  |
-   "TO_CHAR"		 |
-   "TO_DATE"		 |
+   "TO_CHAR"             |
+   "TO_DATE"             |
    "TRAILING"            |
    "TRIGGER"             |
    "TRUE"                |
    "TRUNCATE"            |
-   "TYPE"		 |
+   "TYPE"                |
    "UNDO"                |
    "UNION"               |
    "UNIQUE"              |
@@ -282,7 +282,7 @@ Reserved =
    "UPDATE"              |
    "USAGE"               |
    "USE"                 |
-   "USER"		 |
+   "USER"                |
    "USING"               |
    "VALUES"              |
    "VARBINARY"           |
