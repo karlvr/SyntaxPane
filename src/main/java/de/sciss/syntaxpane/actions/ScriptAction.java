@@ -11,6 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package de.sciss.syntaxpane.actions;
 
 import java.awt.event.ActionEvent;
@@ -47,11 +48,11 @@ public class ScriptAction extends DefaultSyntaxAction {
 			String f = getValue(SCRIPT_FUNCTION).toString();
 			try {
 				engine.put("TARGET", target);
-				engine.put("SDOC", sDoc);
-				engine.put("DOT", dot);
-				engine.put("EVENT", e);
+				engine.put("SDOC"  , sDoc);
+				engine.put("DOT"   , dot);
+				engine.put("EVENT" , e);
 				engine.put("ACTION", this);
-				engine.put("AU", ActionUtils.getInstance());
+				engine.put("AU"    , ActionUtils.getInstance());
 				invocable.invokeFunction(f);
 			} catch (ScriptException ex) {
 				showScriptError(target, ex);

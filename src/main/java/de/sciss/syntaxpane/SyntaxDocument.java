@@ -1,6 +1,6 @@
 /*
  * Copyright 2008 Ayman Al-Sairafi ayman.alsairafi@gmail.com
- * Copyright 2013-2014 Hanns Holger Rutz.
+ * Copyright 2011-2017 Hanns Holger Rutz.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.  
  */
+
 package de.sciss.syntaxpane;
 
 import java.beans.PropertyChangeListener;
@@ -460,8 +461,7 @@ public class SyntaxDocument extends PlainDocument {
 	 * Gets the line at given position.  The line returned will NOT include
 	 * the line terminator '\n'
 	 * @param pos Position (usually from text.getCaretPosition()
-	 * @return the STring of text at given position
-	 * @throws BadLocationException
+	 * @return the String of text at given position
 	 */
 	public String getLineAt(int pos) throws BadLocationException {
 		Element e = getParagraphElement(pos);
@@ -476,8 +476,6 @@ public class SyntaxDocument extends PlainDocument {
 
 	/**
 	 * Deletes the line at given position
-     *
-	 * @throws javax.swing.text.BadLocationException
 	 */
 	public void removeLineAt(int pos)
 		throws BadLocationException {
@@ -488,8 +486,6 @@ public class SyntaxDocument extends PlainDocument {
 	/**
 	 * Replaces the line at given position with the given string, which can span
 	 * multiple lines
-     *
-	 * @throws javax.swing.text.BadLocationException
 	 */
 	public void replaceLineAt(int pos, String newLines)
 		throws BadLocationException {
@@ -576,9 +572,7 @@ public class SyntaxDocument extends PlainDocument {
 
 	/**
 	 * We override this here so that the replace is treated as one operation
-	 * by the undomanager
-     *
-	 * @throws BadLocationException
+	 * by the undo manager
 	 */
 	@Override
 	public void replace(int offset, int length, String text, AttributeSet attrs) throws BadLocationException {

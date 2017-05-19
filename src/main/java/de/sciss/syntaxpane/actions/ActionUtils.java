@@ -1,6 +1,7 @@
 /*
  * Copyright 2008 Ayman Al-Sairafi ayman.alsairafi@gmail.com
- * 
+ * Copyright 2011-2017 Hanns Holger Rutz.
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License 
@@ -11,6 +12,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.  
  */
+
 package de.sciss.syntaxpane.actions;
 
 import java.awt.Component;
@@ -42,7 +44,7 @@ import de.sciss.syntaxpane.Token;
  * Various utility methods to work on JEditorPane and its SyntaxDocument
  * for use by Actions
  *
- * @author Ayman Al-Sairafi
+ * @author Ayman Al-Sairafi, Hanns Holger Rutz
  */
 public class ActionUtils {
 
@@ -196,7 +198,6 @@ public class ActionUtils {
 	 * The first line number is ZERO
      *
 	 * @return line number
-	 * @throws javax.swing.text.BadLocationException
 	 */
 	public static int getLineNumber(JTextComponent editor, int pos)
 		throws BadLocationException {
@@ -313,7 +314,7 @@ public class ActionUtils {
 		if (repeat == 0 || source == null || source.length() == 0) {
 			return "";
 		}
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		for (int i = 0; i < repeat; i++) {
 			buffer.append(source);
 		}
@@ -356,8 +357,6 @@ public class ActionUtils {
 	 * If the toInsert String is multiLine, then indentation of all following lines
 	 * will be the same as the first line.  TAB characters will be replaced by
 	 * the number of spaces in the document's TAB property.
-     *
-	 * @throws javax.swing.text.BadLocationException
 	 */
 	public static void insertMagicString(JTextComponent target, int dot, String toInsert)
 		throws BadLocationException {

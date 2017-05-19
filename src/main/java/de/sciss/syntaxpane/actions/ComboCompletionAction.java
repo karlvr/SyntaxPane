@@ -11,6 +11,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.  
  */
+
 package de.sciss.syntaxpane.actions;
 
 import java.awt.event.ActionEvent;
@@ -64,7 +65,6 @@ public class ComboCompletionAction extends DefaultSyntaxAction {
 
     /**
      * Gets the items to display in the combo
-     * @return
      */
     public List<String> getItems() {
         return items;
@@ -72,7 +72,6 @@ public class ComboCompletionAction extends DefaultSyntaxAction {
 
     /**
      * Sets the items to display in the combo.
-     * @param items
      */
     public void setItems(List<String> items) {
         this.items = items;

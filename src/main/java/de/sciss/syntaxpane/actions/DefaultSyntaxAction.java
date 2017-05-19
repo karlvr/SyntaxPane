@@ -11,6 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package de.sciss.syntaxpane.actions;
 
 import java.awt.event.ActionEvent;
@@ -90,7 +91,6 @@ abstract public class DefaultSyntaxAction extends TextAction implements SyntaxAc
 
 	/**
 	 * Configure the MenuText for the Action
-	 * @param text
 	 */
 	public final void setMenuText(String text) {
 		putValue(NAME, text);
@@ -103,7 +103,6 @@ abstract public class DefaultSyntaxAction extends TextAction implements SyntaxAc
 
 	/**
 	 * Configure the ToolTip for the Action
-	 * @param text
 	 */
 	public final void setToolTip(String text) {
 		putValue(SHORT_DESCRIPTION, text);
@@ -111,8 +110,6 @@ abstract public class DefaultSyntaxAction extends TextAction implements SyntaxAc
 
 	/**
 	 * Sets the Large Icon for this action from given url
-	 *
-	 * @param url
 	 */
 	public final void setLargeIcon(String url) {
 		URL loc = this.getClass().getClassLoader().getResource(LARGE_ICONS_LOC_PREFIX + url);
@@ -124,7 +121,6 @@ abstract public class DefaultSyntaxAction extends TextAction implements SyntaxAc
 
 	/**
 	 * Configure the SmallIcon for the Action
-	 * @param url
 	 */
 	public final void setSmallIcon(String url) {
 		URL loc = this.getClass().getClassLoader().getResource(SMALL_ICONS_LOC_PREFIX + url);

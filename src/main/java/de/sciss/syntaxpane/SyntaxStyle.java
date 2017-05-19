@@ -1,6 +1,7 @@
 /*
  * Copyright 2008 Ayman Al-Sairafi ayman.alsairafi@gmail.com
- * 
+ * Copyright 2011-2017 Hanns Holger Rutz.
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License 
@@ -11,6 +12,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.  
  */
+
 package de.sciss.syntaxpane;
 
 import java.awt.Color;
@@ -25,7 +27,7 @@ import javax.swing.text.Utilities;
  * This class represents the Style for a TokenType.  This class is responsible
  * for actually drawing a Token on the View.
  * 
- * @author Ayman Al-Sairafi
+ * @author Ayman Al-Sairafi, Hanns Holger Rutz
  */
 public final class SyntaxStyle {
 
@@ -66,8 +68,7 @@ public final class SyntaxStyle {
         if (bold) {
             fontStyle |= Font.BOLD;
         } else {
-            int mask = -1 ^ Font.BOLD;
-            fontStyle = (fontStyle & (mask));
+            fontStyle &= ~Font.BOLD;
         }
     }
 
@@ -87,7 +88,7 @@ public final class SyntaxStyle {
         if (italic) {
             fontStyle |= Font.ITALIC;
         } else {
-            fontStyle = (fontStyle & (-1 ^ Font.ITALIC));
+            fontStyle &= ~Font.ITALIC;
         }
     }
 
@@ -109,7 +110,6 @@ public final class SyntaxStyle {
      * @param e - how to expand the tabs. If this value is null, tabs will be 
      * expanded as a space character.
      * @param startOffset - starting offset of the text in the document &gt;= 0
-     * @return
      */
     public int drawText(Segment segment, int x, int y,
             Graphics graphics, TabExpander e, int startOffset) {

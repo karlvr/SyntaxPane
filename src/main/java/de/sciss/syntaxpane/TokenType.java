@@ -1,6 +1,7 @@
 /*
  * Copyright 2008 Ayman Al-Sairafi ayman.alsairafi@gmail.com
- * 
+ * Copyright 2011-2017 Hanns Holger Rutz.
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License 
@@ -11,19 +12,21 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.  
  */
+
 package de.sciss.syntaxpane;
 
 /**
  * These are the various token types supported by SyntaxPane.
  * 
  * @author ayman
+ * @author hhrutz
  */
 public enum TokenType {
 
-    OPERATOR, // Language operators
-    DELIMITER, // Delimiters.  Constructs that are not necessarily operators for a language
-    KEYWORD, // language reserved keywords
-    KEYWORD2, // Other language reserved keywords, like C #defines
+    OPERATOR,   // Language operators
+    DELIMITER,  // Delimiters.  Constructs that are not necessarily operators for a language
+    KEYWORD,    // language reserved keywords
+    KEYWORD2,   // Other language reserved keywords, like C #defines
     IDENTIFIER, // identifiers, variable names, class names
     NUMBER,     // numbers in various formats
     STRING,     // String
@@ -41,41 +44,23 @@ public enum TokenType {
 
     /**
      * Tests if the given token is a Comment Token.
-     * @param t
-     * @return
      */
     public static boolean isComment(Token t) {
-        if (t != null && (t.type == COMMENT || t.type == COMMENT2)) {
-            return true;
-        } else {
-            return false;
-        }
+        return t != null && (t.type == COMMENT || t.type == COMMENT2);
     }
 
     /**
      * Tests if the given token is a Keyword Token.
-     * @param t
-     * @return
      */
     public static boolean isKeyword(Token t) {
-        if (t != null && (t.type == KEYWORD || t.type == KEYWORD2)) {
-            return true;
-        } else {
-            return false;
-        }
+        return t != null && (t.type == KEYWORD || t.type == KEYWORD2);
     }
 
 
     /**
      * Tests if the given token is a String Token.
-     * @param t
-     * @return
      */
     public static boolean isString(Token t) {
-        if (t != null && (t.type == STRING || t.type == STRING2)) {
-            return true;
-        } else {
-            return false;
-        }
+        return t != null && (t.type == STRING || t.type == STRING2);
     }
 }

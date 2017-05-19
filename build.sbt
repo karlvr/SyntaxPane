@@ -1,5 +1,5 @@
 name             := "SyntaxPane"
-version          := "1.1.6"
+version          := "1.1.7-SNAPSHOT"
 organization     := "de.sciss"
 description      := "An extension of Java Swing's JEditorKit that supports syntax highlighting for several languages."
 homepage         := Some(url(s"https://github.com/Sciss/${name.value}"))

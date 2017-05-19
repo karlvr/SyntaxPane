@@ -1,6 +1,7 @@
 /*
  * Copyright 2008 Ayman Al-Sairafi ayman.alsairafi@gmail.com
- * 
+ * Copyright 2011-2017 Hanns Holger Rutz.
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License 
@@ -11,6 +12,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.  
  */
+
 package de.sciss.syntaxpane;
 
 import java.awt.Color;
@@ -33,7 +35,7 @@ import de.sciss.syntaxpane.util.Configuration;
 
 public class SyntaxView extends PlainView {
 
-    public static final String PROPERTY_RIGHT_MARGIN_COLOR = "RightMarginColor";
+    public static final String PROPERTY_RIGHT_MARGIN_COLOR  = "RightMarginColor";
     public static final String PROPERTY_RIGHT_MARGIN_COLUMN = "RightMarginColumn";
     public static final String PROPERTY_SINGLE_COLOR_SELECT = "SingleColorSelect";
     private static final Logger log = Logger.getLogger(SyntaxView.class.getName());
@@ -45,9 +47,6 @@ public class SyntaxView extends PlainView {
 
     /**
      * Construct a new view using the given configuration and prefix given
-     * 
-     * @param element
-     * @param config
      */
     public SyntaxView(Element element, Configuration config) {
         super(element);
@@ -141,7 +140,6 @@ public class SyntaxView extends PlainView {
     /**
      * Sets the Rendering Hints o nthe Graphics.  This is used so that
      * any painters can set the Rendering Hits to match the view.
-     * @param g2d
      */
     public static void setRenderingHits(Graphics2D g2d) {
         g2d.addRenderingHints(sysHints);
@@ -168,7 +166,7 @@ public class SyntaxView extends PlainView {
             Map<RenderingHints.Key,?> map = (Map<RenderingHints.Key,?>)
                     toolkit.getDesktopProperty("awt.font.desktophints");
             sysHints = new RenderingHints(map);
-        } catch (Throwable t) {
+        } catch (Throwable ignored) {
         }
     }
 }
