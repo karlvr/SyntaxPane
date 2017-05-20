@@ -374,6 +374,8 @@ SQuoteStringChar = [^\r\n\']
 
  */
 
+  \[ ~ \] \( ~ \) { return token(TokenType.KEYWORD); }
+
 /*
     5.1 Block quotes
 
