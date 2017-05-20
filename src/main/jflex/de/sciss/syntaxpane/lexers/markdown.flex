@@ -60,7 +60,7 @@ import de.sciss.syntaxpane.TokenType;
 space               = " "
 spaceIndent         = {space}{0,3}
 spacesOpt           = [ ]*
-nonWhite            = [^ \t\f\r\n]
+//nonWhite            = [^ \t\f\r\n]
 nonWhiteStar        = [^ \*\t\f\r\n]
 nonWhiteUS          = [^ \_\t\f\r\n]
 
@@ -92,8 +92,6 @@ nonWhiteUS          = [^ \_\t\f\r\n]
 //FLit2               = \. [0-9]+
 //FLit3               = [0-9]+
 //Exponent            = [eE] [+-]? [0-9]+
-
-
 
 /* embedded HTML */
 
@@ -299,12 +297,7 @@ SQuoteStringChar = [^\r\n\']
 <YYINITIAL> {
 
 /*
-
-
- */
-
-/*
-    4.3 Setext headings
+    4.2 ATX headings
 
     An ATX heading consists of a string of characters, parsed as inline content, between an opening
     sequence of 1–6 unescaped `#` characters and an optional closing sequence of any number of unescaped
@@ -344,6 +337,25 @@ SQuoteStringChar = [^\r\n\']
 
  */
 
+ /*
+
+    4.4 Indented code blocks
+
+    An indented code block is composed of one or more indented chunks separated by blank lines. An indented
+    chunk is a sequence of non-blank lines, each indented four or more spaces. The contents of the code
+    block are the literal contents of the lines, including trailing line endings, minus four spaces of
+    indentation. An indented code block has no info string.
+
+    An indented code block cannot interrupt a paragraph, so there must be a blank line between a paragraph
+    and a following indented code block. (A blank line is not needed, however, between a code block and a
+    following paragraph.)
+
+    XXX TODO
+
+  */
+
+  ^{space}*\n({space}{4,4} ~ \n)+{space}*\n { return token(TokenType.IDENTIFIER); }
+
 /*
     4.1 Thematic breaks
 
@@ -365,6 +377,25 @@ SQuoteStringChar = [^\r\n\']
 /*
     5.1 Block quotes
 
+    A block quote marker consists of 0-3 spaces of initial indent, plus (a) the character `>` together with
+    a following space, or (b) a single character `>` not followed by a space.
+
+    The following rules define block quotes:
+
+    1. Basic case. If a string of lines __Ls__ constitute a sequence of blocks __Bs__, then the result of prepending
+       a block quote marker to the beginning of each line in __Ls__ is a block quote containing __Bs__.
+
+    2. Laziness. If a string of lines __Ls__ constitute a block quote with contents __Bs__, then the result of
+       deleting the initial block quote marker from one or more lines in which the next non-whitespace
+       character after the block quote marker is paragraph continuation text is a block quote with __Bs__ as
+       its content. Paragraph continuation text is text that will be parsed as part of the content of a
+       paragraph, but does not occur at the beginning of the paragraph.
+
+    3. Consecutiveness. A document cannot contain two block quotes in a row unless there is a blank line
+       between them.
+
+    Nothing else counts as a block quote.
+
     XXX TODO
 
  */
@@ -383,6 +414,10 @@ SQuoteStringChar = [^\r\n\']
     XXX TODO
 
  */
+
+  ^{spaceIndent}[\-\+\*]{space}         { return token(TokenType.WARNING); }
+
+  ^{spaceIndent}[0-9]{1,9}[\.\)]{space} { return token(TokenType.WARNING); }
 
 /*
 
