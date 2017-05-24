@@ -17,7 +17,7 @@ The group-id and version have been adjusted to use my name space at Maven Centra
 
     "de.sciss" % "syntaxpane" % v
 
-The current version `v` is `"1.1.6"`
+The current version `v` is `"1.1.7"`
 
 ## Building
 

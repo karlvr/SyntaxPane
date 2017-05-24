@@ -354,7 +354,7 @@ SQuoteStringChar = [^\r\n\']
 
   */
 
-  ^{space}*\n({space}{4,4} ~ \n)+{space}*\n { return token(TokenType.IDENTIFIER); }
+  ^{space}*\n({space}{4,4} ~ \n)+{space}*\n { return token(TokenType.STRING); }
 
 /*
     4.1 Thematic breaks
@@ -402,6 +402,8 @@ SQuoteStringChar = [^\r\n\']
 
  */
 
+  ^{spaceIndent} (">" {space} | ">\n") { return token(TokenType.DELIMITER); }
+
 /*
     5.2 List items
 
@@ -417,9 +419,9 @@ SQuoteStringChar = [^\r\n\']
 
  */
 
-  ^{spaceIndent}[\-\+\*]{space}         { return token(TokenType.WARNING); }
+  ^{spaceIndent}[\-\+\*]{space}         { return token(TokenType.DELIMITER); }
 
-  ^{spaceIndent}[0-9]{1,9}[\.\)]{space} { return token(TokenType.WARNING); }
+  ^{spaceIndent}[0-9]{1,9}[\.\)]{space} { return token(TokenType.DELIMITER); }
 
 /*
 
@@ -465,8 +467,8 @@ SQuoteStringChar = [^\r\n\']
   "**" (({nonWhiteStar} "**") | ({nonWhiteStar} ~ ({nonWhiteStar} "**"))) { return token(TokenType.TYPE2); }
   "__" (({nonWhiteUS  } "__") | ({nonWhiteUS}   ~ ({nonWhiteUS}   "__"))) { return token(TokenType.TYPE2); }
 
-  "*"  (({nonWhiteStar} "*" ) | ({nonWhiteStar} ~ ({nonWhiteStar} "*" ))) { return token(TokenType.TYPE ); }
-  "_"  (({nonWhiteUS}   "_" ) | ({nonWhiteUS}   ~ ({nonWhiteUS}   "_" ))) { return token(TokenType.TYPE ); }
+  "*"  (({nonWhiteStar} "*" ) | ({nonWhiteStar} ~ ({nonWhiteStar} "*" ))) { return token(TokenType.TYPE3); }
+  "_"  (({nonWhiteUS}   "_" ) | ({nonWhiteUS}   ~ ({nonWhiteUS}   "_" ))) { return token(TokenType.TYPE3); }
 
 /*
 
