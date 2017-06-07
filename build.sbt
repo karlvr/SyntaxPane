@@ -1,5 +1,11 @@
-name             := "SyntaxPane"
-version          := "1.1.7"
+lazy val baseName  = "SyntaxPane"
+lazy val baseNameL = baseName.toLowerCase
+
+lazy val projectVersion = "1.1.8"
+lazy val mimaVersion    = "1.1.7"  // for comparision wrt binary compatibility
+
+name             := baseName
+version          := projectVersion
 organization     := "de.sciss"
 description      := "An extension of Java Swing's JEditorKit that supports syntax highlighting for several languages."
 homepage         := Some(url(s"https://github.com/Sciss/${name.value}"))
@@ -14,6 +20,8 @@ mainClass in Compile := Some("de.sciss.syntaxpane.SyntaxTester")
 javacOptions in (Compile, compile) ++= Seq("-g", "-source", "1.6", "-target", "1.6")
 
 fork in run := true
+
+mimaPreviousArtifacts := Set("de.sciss" % baseNameL % mimaVersion)
 
 // ---- JFlex ----
 
