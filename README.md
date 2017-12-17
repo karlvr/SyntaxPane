@@ -11,6 +11,10 @@ The original project is (C)opyright by Ayman Al-Sairafi and released under the [
 
 All changes, reworkings and extensions in SyntaxPane (C)opyright 2011&ndash;2017 by Hanns Holger Rutz. Released under that same license.
 
+## Supported languages
+
+Find here a list of all the [supported languages.](https://github.com/Sciss/SyntaxPane/tree/master/src/main/jflex/de/sciss/syntaxpane/lexers) 
+
 ## Linking
 
 The group-id and version have been adjusted to use my name space at Maven Central:
