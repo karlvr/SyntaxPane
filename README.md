@@ -3,8 +3,6 @@
 [![Build Status](https://travis-ci.org/Sciss/SyntaxPane.svg?branch=master)](https://travis-ci.org/Sciss/SyntaxPane)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.sciss/syntaxpane/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.sciss/syntaxpane)
 
-https://github.com/Sciss/SyntaxPane/tree/master/src/main/jflex/de/sciss/syntaxpane/lexers
-
 ## Statement
 
 SyntaxPane is an extension to Java Swing's JEditorKit component which adds syntax highlighting support for various languages, including Scala and Java. The original project JSyntaxPane can be found [on google-code](http://code.google.com/p/jsyntaxpane/). This is a fork from the 0.9.6 branch.
