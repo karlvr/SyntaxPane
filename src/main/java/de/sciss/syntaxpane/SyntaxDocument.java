@@ -52,6 +52,9 @@ public class SyntaxDocument extends PlainDocument {
     private boolean canUndoState = false;
     private boolean canRedoState = false;
 
+    private int earliestTokenChangePos = -1;
+    private int latestTokenChangePos = -1;
+
     public SyntaxDocument(Lexer lexer) {
         super();
         putProperty(PlainDocument.tabSizeAttribute, 4);
@@ -67,12 +70,14 @@ public class SyntaxDocument extends PlainDocument {
      *
      * @return list of tokens that do not exist in the tokens field
      */
-    private void parse() {
+    private void parse(DocumentEvent event) {
         // if we have no lexer, then we must have no tokens...
         if (lexer == null) {
             tokens = null;
             return;
         }
+        List<Token> oldTokens = tokens;
+
         List<Token> toks = new ArrayList<Token>(getLength() / 10);
         long ts = System.nanoTime();
         int len = getLength();
@@ -88,24 +93,117 @@ public class SyntaxDocument extends PlainDocument {
                     len, (System.nanoTime() - ts) / 1000000, toks.size()));
             }
             tokens = toks;
+            calculateEarliestAndLatestTokenChangePos(event, oldTokens, toks);
         }
+    }
+
+    // Note: For this calculation we are "cheating" a bit since we do not consider actual token
+    // string content. This works in practice because if we change content, the normal Swing code will ensure
+    // that repaint happens, but if anyone tried to use this information for something beyond calculating
+    // needed repaints, we would have issues.
+    private void calculateEarliestAndLatestTokenChangePos(DocumentEvent change, List<Token> oldTokens, List<Token> newTokens) {
+        if (oldTokens == null || change == null ||
+                oldTokens.isEmpty() || newTokens.isEmpty()) {
+            // Not enough info for a diff
+            earliestTokenChangePos = 0;
+            latestTokenChangePos = getLength();
+            return;
+        }
+
+        // First calculate the first point of difference
+        int pos = 0;
+        ListIterator<Token> oldIter = oldTokens.listIterator();
+        ListIterator<Token> newIter = newTokens.listIterator();
+        while (oldIter.hasNext() && newIter.hasNext()) {
+            Token oldToken = oldIter.next();
+            Token newToken = newIter.next();
+            if (oldToken.equals(newToken)) {
+                pos = newToken.end();
+            } else {
+                pos = newToken.start;
+                break;
+            }
+        }
+        if (earliestTokenChangePos < 0 || earliestTokenChangePos > pos) {
+            earliestTokenChangePos = pos;
+        }
+
+        // Now we need to decide if it is safe to scan tokens from the last
+        // for old and new tokens. This works if the last token "matches"
+        // (ie start matches as expected depending on operation), but not
+        // otherwise since one or both of the parsings may have failed
+        // and not parsed equally far
+        boolean canScanBackwards = false;
+
+        if (change != null) {
+            Token lastNew = newTokens.get(newTokens.size() - 1);
+            Token lastOld = oldTokens.get(oldTokens.size() - 1);
+            int oldStart;
+            if (lastOld.start < change.getOffset()) {
+                oldStart = lastOld.start;
+            } else if (DocumentEvent.EventType.INSERT.equals(change.getType())) {
+                oldStart = lastOld.start + change.getLength();
+            } else if (DocumentEvent.EventType.REMOVE.equals(change.getType())) {
+                oldStart = lastOld.start - change.getLength();
+            } else {
+                // Unexpected event.
+                oldStart = -1;
+            }
+
+            canScanBackwards = oldStart == lastNew.start;
+        }
+
+        pos = getLength();
+        if (canScanBackwards) {
+            int searchCutoff = Math.max(earliestTokenChangePos, latestTokenChangePos);
+
+            oldIter = oldTokens.listIterator(oldTokens.size());
+            newIter = newTokens.listIterator(newTokens.size());
+            while (oldIter.hasPrevious() && newIter.hasPrevious() &&
+                    pos > searchCutoff) {
+                Token oldToken = oldIter.previous();
+                Token newToken = newIter.previous();
+                if (oldToken.type == newToken.type &&
+                        oldToken.length == newToken.length) {
+                    pos = newToken.start;
+                } else {
+                    pos = newToken.end();
+                    break;
+                }
+            }
+        }
+        if (latestTokenChangePos < pos) {
+            latestTokenChangePos = pos;
+        }
+    }
+
+    public int getAndClearEarliestTokenChangePos() {
+        int pos = earliestTokenChangePos;
+        earliestTokenChangePos = -1;
+        return pos;
+    }
+
+    public int getAndClearLatestTokenChangePos() {
+        int pos = latestTokenChangePos;
+        latestTokenChangePos = -1;
+        return Math.min(pos, getLength());
     }
 
     @Override
     protected void fireChangedUpdate(DocumentEvent e) {
-        parse();
+        parse(e);
         super.fireChangedUpdate(e);
     }
 
     @Override
     protected void fireInsertUpdate(DocumentEvent e) {
-        parse();
+        parse(e);
         super.fireInsertUpdate(e);
     }
 
     @Override
     protected void fireRemoveUpdate(DocumentEvent e) {
-        parse();
+        parse(e);
         super.fireRemoveUpdate(e);
     }
 
@@ -375,7 +473,7 @@ public class SyntaxDocument extends PlainDocument {
     public void doUndo() {
         if (undo.canUndo()) {
             undo.undo();
-            parse();
+            parse(null);
         }
     }
 
@@ -389,7 +487,7 @@ public class SyntaxDocument extends PlainDocument {
     public void doRedo() {
         if (undo.canRedo()) {
             undo.redo();
-            parse();
+            parse(null);
         }
     }
 

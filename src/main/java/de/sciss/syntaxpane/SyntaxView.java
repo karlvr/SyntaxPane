@@ -19,6 +19,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.Toolkit;
@@ -26,8 +27,10 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.event.DocumentEvent;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Element;
+import javax.swing.text.JTextComponent;
 import javax.swing.text.PlainView;
 import javax.swing.text.Segment;
 import javax.swing.text.ViewFactory;
@@ -150,8 +153,26 @@ public class SyntaxView extends PlainView {
             Shape a,
             ViewFactory f) {
         super.updateDamage(changes, a, f);
-        java.awt.Component host = getContainer();
-        host.repaint();
+
+        // Try to limit extra repaint work
+
+        SyntaxDocument doc = (SyntaxDocument) getDocument();
+        int earliestTokenChangePos = doc.getAndClearEarliestTokenChangePos();
+        int latestTokenChangePos = doc.getAndClearLatestTokenChangePos();
+
+        if (earliestTokenChangePos >= 0 && latestTokenChangePos > earliestTokenChangePos) {
+            JTextComponent textComponent = (JTextComponent) getContainer();
+
+            Element map = getElement();
+            int earliestLine = map.getElementIndex(earliestTokenChangePos);
+            int latestLine = map.getElementIndex(latestTokenChangePos);
+
+            // Note that there is no need to repaint a single line, since this is
+            // always handled by the parent (PlainView) updateDamage call
+            if (earliestLine < latestLine) {
+                damageLineRange(earliestLine, latestLine, a, textComponent);
+            }
+        }
     }
     /**
      * The values for the string key for Text Anti-Aliasing
