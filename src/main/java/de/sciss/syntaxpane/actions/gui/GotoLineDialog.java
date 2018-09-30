@@ -25,7 +25,7 @@ import de.sciss.syntaxpane.util.SwingUtils;
  * @author Ayman Al-Sairafi
  */
 public class GotoLineDialog 
-	extends javax.swing.JDialog implements EscapeListener {
+    extends javax.swing.JDialog implements EscapeListener {
 
     private static final String PROPERTY_KEY = "GOTOLINE_DIALOG";
     private WeakReference<JTextComponent> text;
@@ -35,7 +35,7 @@ public class GotoLineDialog
      * @param text
      */
     private GotoLineDialog(JTextComponent text) {
-		super(SwingUtilities.getWindowAncestor(text), ModalityType.APPLICATION_MODAL);
+        super(SwingUtilities.getWindowAncestor(text), ModalityType.APPLICATION_MODAL);
         initComponents();
         this.text = new WeakReference<JTextComponent>(text);
         setLocationRelativeTo(text.getRootPane());
@@ -147,8 +147,8 @@ public class GotoLineDialog
         
     }
 
-	@Override
-	public void escapePressed() {
-		setVisible(false);
-	}
+    @Override
+    public void escapePressed() {
+        setVisible(false);
+    }
 }

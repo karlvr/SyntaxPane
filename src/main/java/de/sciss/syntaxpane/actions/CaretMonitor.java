@@ -11,6 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package de.sciss.syntaxpane.actions;
 
 import javax.swing.JLabel;
@@ -56,15 +57,15 @@ public class CaretMonitor implements CaretListener {
         this.label = label;
         this.text = text;
         text.addCaretListener(this);
-		updateLabel(text.getCaretPosition());
+        updateLabel(text.getCaretPosition());
     }
 
     @Override
     public void caretUpdate(CaretEvent evt) {
-		updateLabel(evt.getDot());
-	}
+        updateLabel(evt.getDot());
+    }
 
-	protected void updateLabel(int pos) {
+    protected void updateLabel(int pos) {
         if (text.getDocument() instanceof SyntaxDocument) {
             try {
                 if (text.getSelectionStart() == text.getSelectionEnd()) {

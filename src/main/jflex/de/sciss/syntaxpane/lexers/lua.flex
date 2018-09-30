@@ -14,7 +14,6 @@
 
 package de.sciss.syntaxpane.lexers;
 
-
 import de.sciss.syntaxpane.Token;
 import de.sciss.syntaxpane.TokenType;
 
@@ -49,7 +48,7 @@ import de.sciss.syntaxpane.TokenType;
     private static final byte ENDBLOCK  = 4;
     private static final byte REPEATBLOCK = 5;
 
-	TokenType longType;
+    TokenType longType;
     int longLen;
 %}
 
@@ -93,14 +92,14 @@ StringCharacter2 = [^\r\n\'\\]
 <YYINITIAL> {
 
   /* keywords */
-  "and"                        	 |
+  "and"                          |
   "break"                        |
-  "for"                       	 |
-  "if"                         	 |
+  "for"                          |
+  "if"                           |
   "in"                           |
   "local"                        |
-  "not"                        	 |
-  "or"                         	 |
+  "not"                          |
+  "or"                           |
   "return"                       |
   "while"                        |
   
@@ -115,7 +114,7 @@ StringCharacter2 = [^\r\n\'\\]
   "until"                        { return token(TokenType.KEYWORD, -REPEATBLOCK); }
   
   "function"                     { return token(TokenType.KEYWORD, ENDBLOCK); }
-  "then"                     	 { return token(TokenType.KEYWORD, ENDBLOCK); }
+  "then"                         { return token(TokenType.KEYWORD, ENDBLOCK); }
   "do"                           { return token(TokenType.KEYWORD, ENDBLOCK); }
 
   "else"                         { return token(TokenType.KEYWORD); }
@@ -154,7 +153,7 @@ StringCharacter2 = [^\r\n\'\\]
   "]"                            { return token(TokenType.OPERATOR, -BRACKET); }
   
 
-  {LongStart}				     {
+  {LongStart}                    {
                                    longType = TokenType.STRING;
                                    yybegin(LONGSTRING);
                                    tokenStart = yychar;
@@ -162,7 +161,7 @@ StringCharacter2 = [^\r\n\'\\]
                                    longLen = tokenLength;
                                  }
 
-  "--"							 {
+  "--"                           {
                                    yybegin(COMMENT);
                                    tokenStart = yychar;
                                    tokenLength = yylength();
@@ -187,7 +186,7 @@ StringCharacter2 = [^\r\n\'\\]
   
   {HexIntegerLiteral}            |
  
-  {DoubleLiteral}		         { return token(TokenType.NUMBER); }
+  {DoubleLiteral}                { return token(TokenType.NUMBER); }
   
   /* whitespace */
   {WhiteSpace}                   { }
@@ -197,61 +196,61 @@ StringCharacter2 = [^\r\n\'\\]
 }
 
 <LONGSTRING> {
-	{LongEnd}                    {
+    {LongEnd}                    {
                                      if (longLen == yylength()) {
-										tokenLength += yylength();
-	                                    yybegin(YYINITIAL);
+                                        tokenLength += yylength();
+                                        yybegin(YYINITIAL);
                                         return token(longType, tokenStart, tokenLength);
-									 } else {
+                                     } else {
                                         tokenLength++;
-									    yypushback(yylength() - 1);
+                                        yypushback(yylength() - 1);
                                      }
 
-	                             }
-    {LineTerminator}			 { tokenLength += yylength(); }	                             
+                                 }
+    {LineTerminator}             { tokenLength += yylength(); }
     .                            { tokenLength++; }
-	<<EOF>>	             		{
-									yybegin(YYINITIAL);
+    <<EOF>>                     {
+                                    yybegin(YYINITIAL);
                                     return token(longType, tokenStart, tokenLength);
-								}
+                                }
 }
 
 <COMMENT> {
-	{LongStart}			         {
-	                               longType = TokenType.COMMENT;
+    {LongStart}                 {
+                                   longType = TokenType.COMMENT;
                                    yybegin(LONGSTRING);
                                    tokenLength += yylength();
                                    longLen = yylength();
-								}
+                                }
 
-	{LineTerminator}			{
-									yybegin(YYINITIAL);
+    {LineTerminator}            {
+                                    yybegin(YYINITIAL);
                                     return token(TokenType.COMMENT, tokenStart, tokenLength);
-								}
+                                }
 
-	.							{
-								   yybegin(LINECOMMENT);
-								   tokenLength += yylength();
-								}
-	<<EOF>>	             		{
-									yybegin(YYINITIAL);
+    .                           {
+                                   yybegin(LINECOMMENT);
+                                   tokenLength += yylength();
+                                }
+    <<EOF>>                     {
+                                    yybegin(YYINITIAL);
                                     return token(TokenType.COMMENT, tokenStart, tokenLength);
-								}
+                                }
 
 }
 
 <LINECOMMENT> {
-	{LineTerminator}			{
-									yybegin(YYINITIAL);
-									tokenLength += yylength();
+    {LineTerminator}            {
+                                    yybegin(YYINITIAL);
+                                    tokenLength += yylength();
                                     return token(TokenType.COMMENT, tokenStart, tokenLength);
-								}
-    {LineTerminator}			 { tokenLength += yylength(); }
+                                }
+    {LineTerminator}             { tokenLength += yylength(); }
     .                            { tokenLength++; }
-	<<EOF>>	             		{
-									yybegin(YYINITIAL);
+    <<EOF>>                     {
+                                    yybegin(YYINITIAL);
                                     return token(TokenType.COMMENT, tokenStart, tokenLength);
-								}
+                                }
 }
 
 <STRING1> {
@@ -267,10 +266,10 @@ StringCharacter2 = [^\r\n\'\\]
 
   \\.                            { tokenLength += 2; }
   {LineTerminator}               { yybegin(YYINITIAL);  }
-	<<EOF>>	             		{
-									yybegin(YYINITIAL);
+    <<EOF>>                     {
+                                    yybegin(YYINITIAL);
                                     return token(TokenType.STRING, tokenStart, tokenLength);
-								}
+                                }
 }
 
 <STRING2> {
@@ -286,10 +285,10 @@ StringCharacter2 = [^\r\n\'\\]
 
   \\.                            { tokenLength += 2; }
   {LineTerminator}               { yybegin(YYINITIAL);  }
-	<<EOF>>	             		{
-									yybegin(YYINITIAL);
+    <<EOF>>                     {
+                                    yybegin(YYINITIAL);
                                     return token(TokenType.STRING, tokenStart, tokenLength);
-								}
+                                }
 }
 
 /* error fallback */

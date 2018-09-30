@@ -11,6 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package de.sciss.syntaxpane.actions;
 
 import java.awt.event.ActionEvent;
@@ -24,7 +25,7 @@ import de.sciss.syntaxpane.actions.gui.HTMLPreviewFrame;
  * 
  */
 public class HTMLPreviewAction extends DefaultSyntaxAction {
-	public static final String HTML_PREVIEW_WINDOW = "html-preview-window";
+    public static final String HTML_PREVIEW_WINDOW = "html-preview-window";
 
     public HTMLPreviewAction() {
         super("HTML_PREVIEW");

@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Ayman Al-Sairafi ayman.alsairafi@gmail.com
+ * Copyright 2011-2017 Hanns Holger Rutz.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,20 +12,14 @@
  * limitations under the License.
  */
 
-package de.sciss.syntaxpane.actions.gui;
+package de.sciss.syntaxpane.syntaxkits;
 
-import javax.swing.RootPaneContainer;
+import de.sciss.syntaxpane.DefaultSyntaxKit;
+import de.sciss.syntaxpane.lexers.MarkdownLexer;
 
-/**
- * This interface is used by dialogs that will need to listen to ESC key.
- * When the ESC key is pressed, escapePressed is called.
- * @author Ayman Al-Sairafi
- */
-public interface EscapeListener extends RootPaneContainer {
+public class MarkdownSyntaxKit extends DefaultSyntaxKit {
 
-    /**
-     * This method will be called when ESC key is pressed.
-     */
-    public void escapePressed();
-
+    public MarkdownSyntaxKit() {
+        super(new MarkdownLexer());
+    }
 }

@@ -1,6 +1,7 @@
 /*
  * Copyright 2008 Ayman Al-Sairafi ayman.alsairafi@gmail.com
- * 
+ * Copyright 2011-2017 Hanns Holger Rutz.
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License 
@@ -11,6 +12,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.  
  */
+
 package de.sciss.syntaxpane.components;
 
 import de.sciss.syntaxpane.actions.*;
@@ -118,10 +120,10 @@ public class Markers {
             return;
         }
         Matcher matcher = sDoc.getMatcher(pattern);
-		// we may not have any matcher (due to undo or something, so don't do anything.
-		if(matcher==null) {
-			return;
-		}
+        // we may not have any matcher (due to undo or something, so don't do anything.
+        if(matcher==null) {
+            return;
+        }
         while(matcher.find()) {
             markText(pane, matcher.start(), matcher.end(), marker);
         }

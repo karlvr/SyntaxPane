@@ -23,8 +23,7 @@ import javax.swing.text.Segment;
  * @author Ayman Al-Sairafi
  */
 public class EmptyLexer implements Lexer {
-
-	@Override
-	public void parse(Segment segment, int ofst, List<Token> tokens) {
-	}
+    @Override
+    public void parse(Segment segment, int ofst, List<Token> tokens) {
+    }
 }

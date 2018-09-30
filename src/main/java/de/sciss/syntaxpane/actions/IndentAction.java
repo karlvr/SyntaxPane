@@ -11,6 +11,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.  
  */
+
 package de.sciss.syntaxpane.actions;
 
 import java.awt.event.ActionEvent;
@@ -37,60 +38,60 @@ import de.sciss.syntaxpane.Token;
  */
 public class IndentAction extends DefaultSyntaxAction {
 
-	public IndentAction() {
-		super("insert-tab");
-	}
+    public IndentAction() {
+        super("insert-tab");
+    }
 
-	@Override
-	public void actionPerformed(JTextComponent target, SyntaxDocument sDoc,
-		int dot, ActionEvent e) {
-		String selected = target.getSelectedText();
-		EditorKit kit = ((JEditorPane) target).getEditorKit();
-		Map<String, String> abbrvs = ((DefaultSyntaxKit) kit).getAbbreviations();
-		if (selected == null) {
-			// Check for abbreviations:
-			Token abbrToken = sDoc.getWordAt(dot, wordsPattern);
-			Integer tabStop = ActionUtils.getTabSize(target);
-			int lineStart = sDoc.getParagraphElement(dot).getStartOffset();
-			int column = dot - lineStart;
-			int needed = tabStop - (column % tabStop);
-			if (abbrvs == null || abbrToken == null) {
-				target.replaceSelection(ActionUtils.SPACES.substring(0, needed));
-			} else {
-				String abbr = abbrToken.getString(sDoc);
-				if (abbrvs.containsKey(abbr)) {
-					target.select(abbrToken.start, abbrToken.end());
-					abbr = abbrvs.get(abbr);
-					String[] abbrLines = abbr.split("\n");
-					if (abbrLines.length > 1) {
-						ActionUtils.insertLinesTemplate(target, abbrLines);
-					} else {
-						ActionUtils.insertSimpleTemplate(target, abbr);
-					}
-				} else {
-					target.replaceSelection(ActionUtils.SPACES.substring(0, needed));
-				}
-			}
-		} else {
-			String[] lines = ActionUtils.getSelectedLines(target);
-			int start = target.getSelectionStart();
-			StringBuilder sb = new StringBuilder();
-			for (String line : lines) {
-				sb.append(ActionUtils.getTab(target));
-				sb.append(line);
-				sb.append('\n');
-			}
-			target.replaceSelection(sb.toString());
-			target.select(start, start + sb.length());
-		}
-	}
-	private Pattern wordsPattern = Pattern.compile("\\w+");
+    @Override
+    public void actionPerformed(JTextComponent target, SyntaxDocument sDoc,
+        int dot, ActionEvent e) {
+        String selected = target.getSelectedText();
+        EditorKit kit = ((JEditorPane) target).getEditorKit();
+        Map<String, String> abbrvs = ((DefaultSyntaxKit) kit).getAbbreviations();
+        if (selected == null) {
+            // Check for abbreviations:
+            Token abbrToken = sDoc.getWordAt(dot, wordsPattern);
+            Integer tabStop = ActionUtils.getTabSize(target);
+            int lineStart = sDoc.getParagraphElement(dot).getStartOffset();
+            int column = dot - lineStart;
+            int needed = tabStop - (column % tabStop);
+            if (abbrvs == null || abbrToken == null) {
+                target.replaceSelection(ActionUtils.SPACES.substring(0, needed));
+            } else {
+                String abbr = abbrToken.getString(sDoc);
+                if (abbrvs.containsKey(abbr)) {
+                    target.select(abbrToken.start, abbrToken.end());
+                    abbr = abbrvs.get(abbr);
+                    String[] abbrLines = abbr.split("\n");
+                    if (abbrLines.length > 1) {
+                        ActionUtils.insertLinesTemplate(target, abbrLines);
+                    } else {
+                        ActionUtils.insertSimpleTemplate(target, abbr);
+                    }
+                } else {
+                    target.replaceSelection(ActionUtils.SPACES.substring(0, needed));
+                }
+            }
+        } else {
+            String[] lines = ActionUtils.getSelectedLines(target);
+            int start = target.getSelectionStart();
+            StringBuilder sb = new StringBuilder();
+            for (String line : lines) {
+                sb.append(ActionUtils.getTab(target));
+                sb.append(line);
+                sb.append('\n');
+            }
+            target.replaceSelection(sb.toString());
+            target.select(start, start + sb.length());
+        }
+    }
+    private Pattern wordsPattern = Pattern.compile("\\w+");
 
-	public void setWordRegex(String regex) {
-		wordsPattern = Pattern.compile(regex);
-	}
+    public void setWordRegex(String regex) {
+        wordsPattern = Pattern.compile(regex);
+    }
 
-	public Pattern getWordRegex() {
-		return wordsPattern;
-	}
+    public Pattern getWordRegex() {
+        return wordsPattern;
+    }
 }

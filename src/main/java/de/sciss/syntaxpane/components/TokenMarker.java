@@ -11,6 +11,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.  
  */
+
 package de.sciss.syntaxpane.components;
 
 import java.beans.PropertyChangeEvent;
@@ -77,7 +78,6 @@ public class TokenMarker implements SyntaxComponent, CaretListener, PropertyChan
 
     /**
      * add highlights for the given pattern
-     * @param pattern
      */
     void addMarkers(Token tok) {
         SyntaxDocument sDoc = (SyntaxDocument) pane.getDocument();

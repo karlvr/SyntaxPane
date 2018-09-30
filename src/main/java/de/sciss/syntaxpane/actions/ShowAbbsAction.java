@@ -11,6 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package de.sciss.syntaxpane.actions;
 
 import java.awt.event.ActionEvent;
@@ -30,23 +31,23 @@ import de.sciss.syntaxpane.actions.gui.ShowAbbsDialog;
  */
 public class ShowAbbsAction extends DefaultSyntaxAction {
 
-	public ShowAbbsAction() {
-		super("show-abbreviations");
-	}
+    public ShowAbbsAction() {
+        super("show-abbreviations");
+    }
 
-	@Override
-	public void actionPerformed(JTextComponent target, SyntaxDocument sDoc,
-		int dot, ActionEvent e) {
-		// find the abbreviations actions:
-		DefaultSyntaxKit kit = ActionUtils.getSyntaxKit(target);
-		if (kit != null) {
-			Map<String, String> abbs = kit.getAbbreviations();
-			if (abbs == null || abbs.isEmpty()) {
-				JOptionPane.showMessageDialog(target,
-					java.util.ResourceBundle.getBundle("de/sciss/syntaxpane/Bundle").getString("ShowAbbsAction.NoAbbsForType"));
-			} else {
-				new ShowAbbsDialog((JEditorPane) target, abbs);
-			}
-		}
-	}
+    @Override
+    public void actionPerformed(JTextComponent target, SyntaxDocument sDoc,
+        int dot, ActionEvent e) {
+        // find the abbreviations actions:
+        DefaultSyntaxKit kit = ActionUtils.getSyntaxKit(target);
+        if (kit != null) {
+            Map<String, String> abbs = kit.getAbbreviations();
+            if (abbs == null || abbs.isEmpty()) {
+                JOptionPane.showMessageDialog(target,
+                    java.util.ResourceBundle.getBundle("de/sciss/syntaxpane/Bundle").getString("ShowAbbsAction.NoAbbsForType"));
+            } else {
+                new ShowAbbsDialog((JEditorPane) target, abbs);
+            }
+        }
+    }
 }

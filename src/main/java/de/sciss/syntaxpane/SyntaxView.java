@@ -1,6 +1,7 @@
 /*
  * Copyright 2008 Ayman Al-Sairafi ayman.alsairafi@gmail.com
- * 
+ * Copyright 2011-2017 Hanns Holger Rutz.
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License 
@@ -11,12 +12,14 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.  
  */
+
 package de.sciss.syntaxpane;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.Toolkit;
@@ -24,8 +27,10 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.event.DocumentEvent;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Element;
+import javax.swing.text.JTextComponent;
 import javax.swing.text.PlainView;
 import javax.swing.text.Segment;
 import javax.swing.text.ViewFactory;
@@ -33,21 +38,18 @@ import de.sciss.syntaxpane.util.Configuration;
 
 public class SyntaxView extends PlainView {
 
-    public static final String PROPERTY_RIGHT_MARGIN_COLOR = "RightMarginColor";
+    public static final String PROPERTY_RIGHT_MARGIN_COLOR  = "RightMarginColor";
     public static final String PROPERTY_RIGHT_MARGIN_COLUMN = "RightMarginColumn";
     public static final String PROPERTY_SINGLE_COLOR_SELECT = "SingleColorSelect";
     private static final Logger log = Logger.getLogger(SyntaxView.class.getName());
-    private SyntaxStyle DEFAULT_STYLE = SyntaxStyles.getInstance().getStyle(TokenType.DEFAULT);
     private final boolean singleColorSelect;
     private final int rightMarginColumn;
     private final Color rightMarginColor;
     private final SyntaxStyles styles;
+    private final SyntaxStyle defaultStyle;
 
     /**
      * Construct a new view using the given configuration and prefix given
-     * 
-     * @param element
-     * @param config
      */
     public SyntaxView(Element element, Configuration config) {
         super(element);
@@ -57,6 +59,7 @@ public class SyntaxView extends PlainView {
         rightMarginColumn = config.getInteger(PROPERTY_RIGHT_MARGIN_COLUMN,
                 0);
         styles = SyntaxStyles.read(config);
+        defaultStyle = styles.getStyle(TokenType.DEFAULT);
     }
 
     @Override
@@ -86,7 +89,7 @@ public class SyntaxView extends PlainView {
                 // it in the default type
                 if (start < t.start) {
                     doc.getText(start, t.start - start, segment);
-                    x = DEFAULT_STYLE.drawText(segment, x, y, graphics, this, start);
+                    x = defaultStyle.drawText(segment, x, y, graphics, this, start);
                 }
                 // t and s are the actual start and length of what we should
                 // put on the screen.  assume these are the whole token....
@@ -110,7 +113,7 @@ public class SyntaxView extends PlainView {
             // now for any remaining text not tokenized:
             if (start < p1) {
                 doc.getText(start, p1 - start, segment);
-                x = DEFAULT_STYLE.drawText(segment, x, y, graphics, this, start);
+                x = defaultStyle.drawText(segment, x, y, graphics, this, start);
             }
         } catch (BadLocationException ex) {
             log.log(Level.SEVERE, "Requested: " + ex.offsetRequested(), ex);
@@ -140,7 +143,6 @@ public class SyntaxView extends PlainView {
     /**
      * Sets the Rendering Hints o nthe Graphics.  This is used so that
      * any painters can set the Rendering Hits to match the view.
-     * @param g2d
      */
     public static void setRenderingHits(Graphics2D g2d) {
         g2d.addRenderingHints(sysHints);
@@ -151,8 +153,26 @@ public class SyntaxView extends PlainView {
             Shape a,
             ViewFactory f) {
         super.updateDamage(changes, a, f);
-        java.awt.Component host = getContainer();
-        host.repaint();
+
+        // Try to limit extra repaint work
+
+        SyntaxDocument doc = (SyntaxDocument) getDocument();
+        int earliestTokenChangePos = doc.getAndClearEarliestTokenChangePos();
+        int latestTokenChangePos = doc.getAndClearLatestTokenChangePos();
+
+        if (earliestTokenChangePos >= 0 && latestTokenChangePos > earliestTokenChangePos) {
+            JTextComponent textComponent = (JTextComponent) getContainer();
+
+            Element map = getElement();
+            int earliestLine = map.getElementIndex(earliestTokenChangePos);
+            int latestLine = map.getElementIndex(latestTokenChangePos);
+
+            // Note that there is no need to repaint a single line, since this is
+            // always handled by the parent (PlainView) updateDamage call
+            if (earliestLine < latestLine) {
+                damageLineRange(earliestLine, latestLine, a, textComponent);
+            }
+        }
     }
     /**
      * The values for the string key for Text Anti-Aliasing
@@ -167,7 +187,7 @@ public class SyntaxView extends PlainView {
             Map<RenderingHints.Key,?> map = (Map<RenderingHints.Key,?>)
                     toolkit.getDesktopProperty("awt.font.desktophints");
             sysHints = new RenderingHints(map);
-        } catch (Throwable t) {
+        } catch (Throwable ignored) {
         }
     }
 }

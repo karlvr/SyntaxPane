@@ -100,11 +100,11 @@ public class Configuration implements Map<String, String> {
             StringBuffer sb = new StringBuffer();
             while (m.find()) {
                 String p_key = m.group(1);
-                String p_value = getString(p_key);
+                String p_value;
                 if (p_key.equals("class_path")) {
-                    p_value = clazz.getName().replace(".", "/").toLowerCase();
+                    p_value = Matcher.quoteReplacement(clazz.getName().replace(".", "/").toLowerCase());
                 } else if (p_key.equals("class_simpleName")) {
-                    p_value = clazz.getSimpleName();
+                    p_value = Matcher.quoteReplacement(clazz.getSimpleName());
                 } else {
                     p_value = getString(p_key);
                     if (p_value == null) {

@@ -1,6 +1,7 @@
 /*
  * Copyright 2008 Ayman Al-Sairafi ayman.alsairafi@gmail.com
- * 
+ * Copyright 2011-2017 Hanns Holger Rutz.
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License 
@@ -11,6 +12,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.  
  */
+
 package de.sciss.syntaxpane;
 
 import java.io.Serializable;
@@ -28,7 +30,7 @@ import javax.swing.text.Segment;
  * per document can be large, you may end up with twice the memory
  * in a SyntaxDocument with Tokens than a simple PlainDocument.
  *
- * @author Ayman Al-Sairafi
+ * @author Ayman Al-Sairafi, Hanns Holger Rutz
  */
 public class Token implements Serializable, Comparable {
 
@@ -75,7 +77,7 @@ public class Token implements Serializable, Comparable {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Object) {
+        if (obj != null) {
             Token token = (Token) obj;
             return ((this.start == token.start) &&
                     (this.length == token.length) &&
@@ -128,9 +130,8 @@ public class Token implements Serializable, Comparable {
             doc.getText(start, length, text);
         } catch (BadLocationException ex) {
             Logger.getLogger(Token.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            return text;
         }
+        return text;
     }
 
     public String getString(Document doc) {
@@ -139,8 +140,7 @@ public class Token implements Serializable, Comparable {
             result = doc.getText(start, length);
         } catch (BadLocationException ex) {
             Logger.getLogger(Token.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            return result;
         }
+        return result;
     }
 }

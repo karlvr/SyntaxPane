@@ -11,6 +11,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.  
  */
+
 package de.sciss.syntaxpane.lexers;
 
 import java.io.CharArrayReader;
@@ -100,7 +101,6 @@ public abstract class DefaultJFlexLexer implements Lexer {
     /**
      * This is called to return the next Token from the Input Reader
      * @return next token, or null if no more tokens.
-     * @throws java.io.IOException
      */
     public abstract Token yylex() throws java.io.IOException;
 

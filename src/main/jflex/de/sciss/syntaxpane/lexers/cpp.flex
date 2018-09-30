@@ -11,6 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 /*
  * Copyright 2006 Arnout Engelen <arnouten[remove] at bzzt dot net>.
  * Copyright 2000-2006 Omnicore Software, Hans Kratz & Dennis Strein GbR,
@@ -20,7 +21,6 @@
  * - the GNU Lesser General Public License, v2.1 or later
  */
 package de.sciss.syntaxpane.lexers;
-
 
 import de.sciss.syntaxpane.Token;
 import de.sciss.syntaxpane.TokenType;
@@ -81,7 +81,7 @@ OctLiteral    = 0+ {OctDigit}* {IntegerSuffix}
 OctDigit          = [0-7]
 
 IntegerSuffix = [uU]? [lL]? [uU]?
-	
+
 /* float literals */
 
 FloatLiteral  = ({FLit1}|{FLit2}|{FLit3}|{FLit4}) ([fF]|[dD])?
@@ -182,8 +182,8 @@ Exponent = [eE] [+\-]? [0-9]+
 
   (\" ( [^\"\n\\] | \\[^\n] )* (\n | \\\n | \")) |
   (\' ( [^\'\n\\] | \\[^\n] )* (\n | \\\n | \')) 
- 	{ return token(TokenType.STRING); }
- 	
+    { return token(TokenType.STRING); }
+
   "true" |
   "false" |
   {DecLiteral} |
@@ -191,7 +191,7 @@ Exponent = [eE] [+\-]? [0-9]+
   {HexLiteral} |
 
   {FloatLiteral}
-	 { return token(TokenType.NUMBER); }
+    { return token(TokenType.NUMBER); }
 
   /* preprocessor symbols */
   "#define" |
@@ -208,7 +208,7 @@ Exponent = [eE] [+\-]? [0-9]+
   "#pragma" |
   "#undef" |
   "#using"
-  	{ return token(TokenType.KEYWORD2); }
+    { return token(TokenType.KEYWORD2); }
 
   
   /* separators */
@@ -264,7 +264,7 @@ Exponent = [eE] [+\-]? [0-9]+
 
   {Identifier}             { return token(TokenType.IDENTIFIER); }
 
-  {Comment}   	           { return token(TokenType.COMMENT); }
+  {Comment}                { return token(TokenType.COMMENT); }
 }
 
 

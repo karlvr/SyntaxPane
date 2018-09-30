@@ -14,7 +14,6 @@
 
 package de.sciss.syntaxpane.lexers;
 
-
 import de.sciss.syntaxpane.Token;
 import de.sciss.syntaxpane.TokenType;
 
@@ -54,7 +53,7 @@ KeyCharacter = [a-zA-Z0-9._ ]
 
 <YYINITIAL> 
 {
-	{KeyCharacter}+{WhiteSpace}*=    { return token(TokenType.KEYWORD); }
+    {KeyCharacter}+{WhiteSpace}*=    { return token(TokenType.KEYWORD); }
         {StartComment} {InputCharacter}* {LineTerminator}?         
                                          { return token(TokenType.COMMENT); }
         . | {LineTerminator}             { /* skip */ }
