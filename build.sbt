@@ -1,14 +1,14 @@
 lazy val baseName  = "SyntaxPane"
 lazy val baseNameL = baseName.toLowerCase
 
-lazy val projectVersion = "1.1.9"
+lazy val projectVersion = "1.1.10"
 lazy val mimaVersion    = "1.1.7"  // for comparison wrt binary compatibility
 
 name             := baseName
 version          := projectVersion
 organization     := "de.sciss"
 description      := "An extension of Java Swing's JEditorKit that supports syntax highlighting for several languages."
-homepage         := Some(url(s"https://github.com/Sciss/${name.value}"))
+homepage         := Some(url(s"https://git.iem.at/sciss/${name.value}"))
 licenses         := Seq("Apache 2.0 License" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 
 scalaVersion     := "2.12.4" // not used; note that Travis now uses JDK 8 anyway, even if you specify JDK 6
@@ -44,8 +44,8 @@ pomIncludeRepository := { _ => false }
 
 pomExtra := { val n = name.value
 <scm>
-  <url>git@github.com:Sciss/{n}.git</url>
-  <connection>scm:git:git@github.com:Sciss/{n}.git</connection>
+  <url>git@git.iem.at:sciss/{n}.git</url>
+  <connection>scm:git:git@git.iem.at:sciss/{n}.git</connection>
 </scm>
 <developers>
   <developer>
