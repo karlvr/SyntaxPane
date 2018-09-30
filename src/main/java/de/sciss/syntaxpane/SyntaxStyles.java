@@ -29,7 +29,7 @@ import de.sciss.syntaxpane.util.JarServiceProvider;
 
 /**
  * The Styles to use for each TokenType.  The defaults are created here, and
- * then the resource META-INF/services/syntaxstyles.properties is read and
+ * then the resource META-INF/services/de.sciss.syntaxpane.syntaxstyles.properties is read and
  * merged.  You can also pass a properties instance and merge your preferred
  * styles into the default styles.
  *
