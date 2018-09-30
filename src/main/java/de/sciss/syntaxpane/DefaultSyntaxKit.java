@@ -660,6 +660,11 @@ public class DefaultSyntaxKit extends DefaultEditorKit implements ViewFactory {
         } else {
             conf.putAll(p);
         }
+
+        Properties customProperties = JarServiceProvider.readProperties(kit.getName() + ".config", Locale.getDefault());
+        if (!customProperties.isEmpty()) {
+            conf.putAll(customProperties);
+        }
     }
 
     @Override
