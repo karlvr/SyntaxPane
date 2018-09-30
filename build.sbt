@@ -1,7 +1,7 @@
 lazy val baseName  = "SyntaxPane"
 lazy val baseNameL = baseName.toLowerCase
 
-lazy val projectVersion = "1.1.9"
+lazy val projectVersion = "1.1.9-CHARLES"
 lazy val mimaVersion    = "1.1.7"  // for comparison wrt binary compatibility
 
 name             := baseName
