@@ -61,9 +61,9 @@ public class SyntaxStyles {
         }
     }
     Map<TokenType, SyntaxStyle> styles;
-    private static SyntaxStyles instance = createInstance();
     private static final Logger LOG = Logger.getLogger(SyntaxStyles.class.getName());
     private static SyntaxStyle DEFAULT_STYLE = new SyntaxStyle(Color.BLACK, Font.PLAIN);
+    private static SyntaxStyles instance = createInstance();
 
     private SyntaxStyles() {}
 
