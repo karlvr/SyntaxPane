@@ -18,7 +18,11 @@ package de.sciss.syntaxpane;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.AbstractDocument.DefaultDocumentEvent;
-import javax.swing.undo.*;
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CannotUndoException;
+import javax.swing.undo.CompoundEdit;
+import javax.swing.undo.UndoManager;
+import javax.swing.undo.UndoableEdit;
 
 /**
  * A revised UndoManager that groups undos based on positions.  If the change is relatively next to the
@@ -35,7 +39,7 @@ import javax.swing.undo.*;
  * @author Ayman Al-Sairafi, Hanns Holger Rutz
  */
 public class CompoundUndoManager extends UndoManager {
-    private final SyntaxDocument doc;
+    private final de.sciss.syntaxpane.SyntaxDocument doc;
 
     private CompoundEdit compoundEdit;
     // This allows us to start combining operations.
@@ -45,7 +49,7 @@ public class CompoundUndoManager extends UndoManager {
     // lines, then they will not be combined.
     private int lastLine = -1;
 
-    public CompoundUndoManager(SyntaxDocument doc) {
+    public CompoundUndoManager(de.sciss.syntaxpane.SyntaxDocument doc) {
         this.doc = doc;
         doc.addUndoableEditListener(this);
         lastLine = doc.getStartPosition().getOffset();
@@ -59,29 +63,42 @@ public class CompoundUndoManager extends UndoManager {
     public void undoableEditHappened(UndoableEditEvent e) {
         //  Start a new compound edit
 
-        AbstractDocument.DefaultDocumentEvent docEvt = (DefaultDocumentEvent) e.getEdit();
-
         if (compoundEdit == null) {
             compoundEdit = startCompoundEdit(e.getEdit());
             startCombine = false;
             updateDirty();
             return;
         }
+        if (e.getEdit() instanceof DefaultDocumentEvent) {
+            // Java 6 to 8
+            AbstractDocument.DefaultDocumentEvent docEvt = (DefaultDocumentEvent) e.getEdit();
 
-        int editLine = ((SyntaxDocument)docEvt.getDocument()).getLineNumberAt(docEvt.getOffset());
+            int editLine = doc.getLineNumberAt(docEvt.getOffset());
 
-        //  Check for an incremental edit or backspace.
-        //  The Change in Caret position and Document length should both be
-        //  either 1 or -1.
-        if ((startCombine || Math.abs(docEvt.getLength()) == 1) && editLine == lastLine) {
-            compoundEdit.addEdit(e.getEdit());
-            startCombine = false;
-            updateDirty();
-            return;
+            //  Check for an incremental edit or backspace.
+            //  The Change in Caret position and Document length should both be
+            //  either 1 or -1.
+            if ((startCombine || Math.abs(docEvt.getLength()) == 1) && editLine == lastLine) {
+                compoundEdit.addEdit(e.getEdit());
+                startCombine = false;
+                updateDirty();
+                return;
+            }
+
+            //  Not incremental edit, end previous edit and start a new one
+            lastLine = editLine;
+
+        } else {
+            // Java 9: It seems that all the edits are wrapped and we cannot get line number!
+            // See https://github.com/netroby/jdk9-dev/blob/master/jdk/src/java.desktop/share/classes/javax/swing/text/AbstractDocument.java#L279
+            // AbstractDocument.DefaultDocumentEventUndoableWrapper docEvt = e.getEdit();
+            if (startCombine && !e.getEdit().isSignificant()) {
+                compoundEdit.addEdit(e.getEdit());
+                startCombine = false;
+                updateDirty();
+                return;
+            }
         }
-
-        //  Not incremental edit, end previous edit and start a new one
-        lastLine = editLine;
 
         compoundEdit.end();
         compoundEdit = startCompoundEdit(e.getEdit());

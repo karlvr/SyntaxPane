@@ -1,8 +1,8 @@
 lazy val baseName  = "SyntaxPane"
 lazy val baseNameL = baseName.toLowerCase
 
-lazy val projectVersion = "1.1.10"
-lazy val mimaVersion    = "1.1.7"  // for comparison wrt binary compatibility
+lazy val projectVersion = "1.2.0"
+lazy val mimaVersion    = "1.2.0"  // for comparison wrt binary compatibility
 
 name             := baseName
 version          := projectVersion
@@ -11,7 +11,7 @@ description      := "An extension of Java Swing's JEditorKit that supports synta
 homepage         := Some(url(s"https://git.iem.at/sciss/${name.value}"))
 licenses         := Seq("Apache 2.0 License" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 
-scalaVersion     := "2.12.4" // not used; note that Travis now uses JDK 8 anyway, even if you specify JDK 6
+scalaVersion     := "2.12.8"  // not used; note that Travis now uses JDK 8 anyway, even if you specify JDK 6
 crossPaths       := false     // this is just a Java project right now!
 autoScalaLibrary := false
 
@@ -25,7 +25,9 @@ mimaPreviousArtifacts := Set("de.sciss" % baseNameL % mimaVersion)
 
 // ---- JFlex ----
 
-seq(jflexSettings: _*)
+// seq(jflexSettings: _*)
+
+SbtJFlexPlugin.jflexSettings
 
 // ---- publishing ----
 
