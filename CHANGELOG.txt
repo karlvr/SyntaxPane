@@ -1,3 +1,7 @@
+Version 1.2.0
+    * Fixes an issue with OpenJDK 11 (@pguermo)
+    * Builds with sbt 1.x now
+
 Version 1.1.7
     * Add text/markdown
 
